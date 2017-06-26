@@ -1,0 +1,212 @@
+{
+	"amrh": {
+		"name": "Amr Hussein",
+		"position": "Client Facing engineer",
+		"roles": ["Support","On-Call","SEO","Training"],
+		"pool":"taskpoola"
+	},
+	"kyungjinh": {
+		"name": "Kyung-Jin",
+		"position": "Client Facing engineer",
+		"roles": ["Support"],
+		"pool":"taskpoola"
+	},
+	"alexanderb": {
+		"name": "Alexander Bayliss",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoola"
+	},
+	"samb": {
+		"name": "Sam Botting",
+		"position": "Client Facing engineer",
+		"roles": ["Analytics"],
+		"pool":"taskpoola"
+	},
+	"wouterv": {
+		"name": "Wouter Verwoerd",
+		"position": "Client Facing engineer",
+		"roles": ["DB","Analytics"],
+		"pool":"taskpoola"
+	},
+	"ruig": {
+		"name": "Rui Gong",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoola"
+	},
+	"adamf": {
+		"name": "Adam Freeman",
+		"position": "Client Facing engineer",
+		"roles": ["Team lead","Template Builder","On-call","RAC Dev","Testing"],
+		"pool":"taskpoola"
+	},
+	"jakubg": {
+		"name": "Jakub Gereg",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoola"
+	},
+	"shaunp": {
+		"name": "Shaun Phillips",
+		"position": "Client Facing engineer",
+		"roles": ["Support","Platform Support"],
+		"pool":"taskpoolb"
+	},
+	"christopherh": {
+		"name": "Christopher Harding",
+		"position": "Client Facing engineer",
+		"roles": ["Platform Support","Support","Training"],
+		"pool":"taskpoolb"
+	},
+	"yukif": {
+		"name": "Yuki Fujii",
+		"position": "Client Facing engineer",
+		"roles": ["Platform Support"],
+		"pool":"taskpoolb"
+	},
+	"carlz": {
+		"name": "Carl Zogheib",
+		"position": "Client Facing engineer",
+		"roles": ["Analytics"],
+		"pool":"taskpoolb"
+	},
+	"bradleyd": {
+		"name": "Bradley Dilley",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoolb"
+	},
+	"steffenw": {
+		"name": "Steffen",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoolb"
+	},
+	"paulk": {
+		"name": "Paul Kibblewhite",
+		"position": "Client Facing engineer",
+		"roles": ["Template Builder","On-Call"],
+		"pool":"taskpoolb"
+	},
+	"fionaf": {
+		"name": "Fiona Forsythe",
+		"position": "Client Facing engineer",
+		"roles": ["Tech Lead","Training Lead"],
+		"pool":"taskpoolb"
+	},
+	"liamt": {
+		"name": "Liam Twist",
+		"position": "Client Facing engineer",
+		"roles": ["Support","On-Call"],
+		"pool":"taskpoolc"
+	},
+	"teddyq": {
+		"name": "Teddy Quan",
+		"position": "Client Facing engineer",
+		"roles": ["Tech Lead","Support","On-Call","Learning Recs","Training","Testing","Analytics"],
+		"pool":"taskpoolc"
+	},
+	"lofanc": {
+		"name": "Lofan Chin",
+		"position": "Client Facing engineer",
+		"roles": ["Support","Analytics"],
+		"pool":"taskpoolc"
+	},
+	"alasdairr": {
+		"name": "Alasdair Ross",
+		"position": "Client Facing engineer",
+		"roles": ["Template Builder"],
+		"pool":"taskpoolc"
+	},
+	"josies": {
+		"name": "Josie Smith",
+		"position": "Client Facing engineer",
+		"roles": ["SEO"],
+		"pool":"taskpoolc"
+	},
+	"karld": {
+		"name": "Karl Donaldson",
+		"position": "Client Facing engineer",
+		"roles": ["Team Lead","Platform Support","Learning Recs","Tools Development"],
+		"pool":"taskpoolc"
+	},
+	"charless": {
+		"name": "Charles Salmon",
+		"position": "Client Facing engineer",
+		"roles": ["Analytics"],
+		"pool":"taskpoolc"
+	},
+	"huid": {
+		"name": "Hui Dai",
+		"position": "Client Facing engineer",
+		"roles": ["Support"],
+		"pool":"taskpoold"
+	},
+	"coreyb": {
+		"name": "Corey Barnard",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoold"
+	},
+	"michalb": {
+		"name": "Michal Bokr",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoold"
+	},
+	"hamishm": {
+		"name": "Hamish Medlin",
+		"position": "Client Facing engineer",
+		"roles": ["Team Lead","Testing","On-Call","Template Builder"],
+		"pool":"taskpoold"
+	},
+	"callumr": {
+		"name": "Callum Reid",
+		"position": "Client Facing engineer",
+		"roles": ["Tech Lead","Learning Recs"],
+		"pool":"taskpoold"
+	},
+	"jiayil": {
+		"name": "Jiayi Liu",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoold"
+	},
+	"nanaqi": {
+		"name": "Nana Qi",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoold"
+	},
+	"hannaha": {
+		"name": "Hannah Ashworth",
+		"position": "Client Facing engineer",
+		"roles": ["Team Lead","Support"],
+		"pool":"taskpooluk"
+	},
+	"declanw": {
+		"name": "Declan Wright",
+		"position": "Client Facing engineer",
+		"roles": ["Learning Recs","Support UK"],
+		"pool":"taskpooluk"
+	},
+	"robertor": {
+		"name": "Roberto Roca",
+		"position": "Client Facing engineer",
+		"roles": ["Support UK","SEO"],
+		"pool":"taskpooluk"
+	},
+	"michaelc": {
+		"name": "Michael Coleman",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpooluk"
+	},
+	"theoa": {
+		"name": "Theo Archer",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpooluk"
+	}
+}

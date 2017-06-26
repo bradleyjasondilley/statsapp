@@ -1,0 +1,39 @@
+<div>
+
+<form>
+    <select ng-model="whichPool">
+        <option ng-repeat="(key, data) in usrData" value="{{key}}">{{key}}</option>
+    </select>
+</form>
+
+<div ng-repeat="(pool, members) in usrData" id="{{pool}}" class="pool" ng-if="whichPool === pool">
+
+    <div ng-repeat="(member, memberData) in members">
+        <div class="usrHeading">
+            <div class="usrAvatar"></div>
+            <div class="usrInfo">
+                <div class="usrName">{{memberData.name}}</div>
+                <div class="usrPosition">{{memberData.position}}</div>
+            </div>
+            <div class="usrRole">
+                <span ng-repeat="role in memberData.roles">{{role}} .::. </span>
+            </div>
+        </div>
+
+        <div class="member">
+            <select name="weeks" id="{{member}}_weeks">
+                <option ng-repeat="(key, value) in memberData.hours.weeks" value="{{key}}">Week {{key}}</option>
+            </select>
+
+            <div class="data_weeks" ng-repeat="(weekNumber, weekData) in memberData.hours.weeks" id="{{member}}_week_{{weekNumber}}">
+                <span class="data_week_day" ng-repeat="(weekday, dayInfo) in weekData.days">{{weekday}} - {{dayInfo.day}} - {{dayInfo.time}}</span>
+                <span>{{weekData.totalTime}}</span>
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>
+
+</div>

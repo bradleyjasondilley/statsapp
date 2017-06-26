@@ -1,0 +1,1 @@
+var userStats = angular.module('UserStats',['ngResource']);

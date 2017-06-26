@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" data-root="/sli_systems">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Queue Order | SLI Commerce Console</title>
+    <script src="jquery-3.1.0.js"></script>
+    <script src="angular.js"></script>
+    <script src="angular-route.js"></script>
+    <script src="angular-resource.js"></script>
+    <script src="moment.js"></script>
+    <script src="app.js" type="text/javascript" charset="utf-8"></script>
+    <script src="service/grabStats.js" type="text/javascript" charset="utf-8"></script>
+    <script src="service/getData.js" type="text/javascript" charset="utf-8"></script>    
+    <script src="controllers/StatsCtrl.js" type="text/javascript" charset="utf-8"></script>
+    <script src="directives/stHoursLogged.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+  </head>
+    <body>
+
+        <div class="container-fluid">
+            <div ng-app="UserStats">
+                <div ng-controller="StatsCtrl">
+                    <st-hours-logged></st-hours-logged>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
