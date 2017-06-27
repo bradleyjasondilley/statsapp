@@ -59,7 +59,8 @@ function prepHours(usrData,data){
             var weekTotal = 0;
             var firstRun = true;
             var bestWeek = 0;
-            var bestWeekTime = 0;
+            var bestWeekTime = "";
+            var bestWeekMin = 0;
             var worstWeek = 0;            
             var worstWeekTime = 0;
             weeks['weeks'] = {};
@@ -89,18 +90,54 @@ function prepHours(usrData,data){
                         weeks['weeks'][week]["days"] = {};
                     }
 
+                    console.log(week + " - " + tmp['day'] +  " - " + weeks['weeks'][week]["total"]);
+                    
+
                     if(currentWeek == lastWeek){
+
                         weeks['weeks'][week]["total"] += parseFloat(hTime);
-                        if(weeks['weeks'][week]["total"] > bestWeekTime){
-                            bestWeekTime = weeks['weeks'][week]["total"];
-                            bestWeek = week;
-                        }
+
                     }else{
+
                         weeks['weeks'][week-1]["totalTime"] = minTommss(weeks['weeks'][week-1]["total"]);
+                        console.log("update info - " + weeks['weeks'][week-1]["totalTime"]);
+                        totalMin = moment.duration(weeks['weeks'][week-1]["totalTime"]).asMinutes();
                         lastWeek = currentWeek;
+
+
+                        // if(worstWeekTime == 0){
+                        //     worstWeekTime = weeks['weeks'][week-1]["totalTime"];
+                        // }
+                        console.log("bestWeekTime " + bestWeekTime);
+                        if(totalMin > bestWeekMin){
+                            bestWeekTime = weeks['weeks'][week-1]["totalTime"];
+                            bestWeekMin = totalMin;
+                            bestWeek = week-1;
+                        }
+
+                        if(weeks['weeks'][week-1]["totalTime"] < worstWeekTime){
+                            worstWeekTime = weeks['weeks'][week-1]["totalTime"];
+                            worstWeek = week-1;
+                        }
+
+                        weeks["bestWeek"]['week'] = bestWeek;
+                        weeks["bestWeek"]['time'] = bestWeekTime;
+
+                        weeks["worstWeek"]['week'] = worstWeek;
+                        weeks["worstWeek"]['time'] = worstWeekTime;
+
                     }
                     weeks['weeks'][week]["days"][hDate] = tmp;
+
+                    //console.log("week " + week + " - " + weeks["worstWeek"]['time']);
                 })
+
+                weeks["bestWeek"]['week'] = bestWeek;
+                weeks["bestWeek"]['time'] = bestWeekTime;
+
+                weeks["worstWeek"]['week'] = worstWeek;
+                weeks["worstWeek"]['time'] = worstWeekTime;
+
                 weeks['weeks'][currentWeek]["totalTime"] = minTommss(weeks['weeks'][currentWeek]["total"]);
                 usrData[pool][name]['hours'] = weeks;
             }       
