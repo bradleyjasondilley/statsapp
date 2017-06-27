@@ -26,6 +26,7 @@
             </select>
 
             <div class="data_weeks" ng-repeat="(weekNumber, weekData) in memberData.hours.weeks" id="{{member}}_week_{{weekNumber}}">
+                <span>Week {{weekNumber}}</span>
                 <span class="data_week_day" ng-repeat="(weekday, dayInfo) in weekData.days">{{weekday}} - {{dayInfo.day}} - {{dayInfo.time}}</span>
                 <span>{{weekData.totalTime}}</span>
             </div>

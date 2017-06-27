@@ -8,7 +8,7 @@ angular.module('UserStats').controller('StatsCtrl', function ($scope,$http,DataR
 
     //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
     //var hoursUrl = 'kpi/hours/?startDate=20170110&endDate=20170120';
-    var hoursUrl = 'assets/data/data2.json';
+    var hoursUrl = 'assets/data/data.json';
 
     DataRequest.getData(usrUrl, 
         function(returnedData) {
@@ -58,17 +58,29 @@ function prepHours(usrData,data){
             var lastWeek = currentWeek;
             var weekTotal = 0;
             var firstRun = true;
+            var lastRun = false;
             var bestWeek = 0;
             var bestWeekTime = "";
             var bestWeekMin = 0;
             var worstWeek = 0;            
-            var worstWeekTime = 0;
+            var worstWeekTime = "";
+            var worstWeekMin = 0;
+            var totalEntries = Object.size(hours);
+            var counter = 0;
             weeks['weeks'] = {};
             weeks["bestWeek"] = {};
             weeks["worstWeek"] = {};
+
+
+
             if(typeof usrData[pool] != "undefined"){
                 
                 $.each(hours, function(hDate,hTime){
+
+                    if (counter === totalEntries - 1) {
+                        lastRun = true;
+                    }
+
                     var tmp = {};
                     tmp['time'] = minTommss(hTime);
                     tmp['day'] = moment(hDate).format("dddd");
@@ -89,34 +101,50 @@ function prepHours(usrData,data){
                     if(!weeks['weeks'][week]["days"]){
                         weeks['weeks'][week]["days"] = {};
                     }
-
-                    console.log(week + " - " + tmp['day'] +  " - " + weeks['weeks'][week]["total"]);
                     
 
                     if(currentWeek == lastWeek){
-
                         weeks['weeks'][week]["total"] += parseFloat(hTime);
+                        
+                        if(lastRun){
+                            weeks['weeks'][week]["totalTime"] = minTommss(weeks['weeks'][week]["total"]);
+                            totalMin = moment.duration(weeks['weeks'][week]["totalTime"]).asMinutes();
+                            weeks['weeks'][week]["totalTime"] = minTommss(weeks['weeks'][week]["total"]);
+
+                            if(totalMin > bestWeekMin){
+                                bestWeekTime = weeks['weeks'][week]["totalTime"];
+                                bestWeekMin = totalMin;
+                                bestWeek = week;
+                            }
+
+                            if(totalMin < worstWeekMin){
+                                worstWeekTime = weeks['weeks'][week]["totalTime"];
+                                worstWeekMin = totalMin;
+                                worstWeek = week;
+                            }
+
+                        }
 
                     }else{
-
+                        weeks['weeks'][week]["total"] += parseFloat(hTime);
                         weeks['weeks'][week-1]["totalTime"] = minTommss(weeks['weeks'][week-1]["total"]);
-                        console.log("update info - " + weeks['weeks'][week-1]["totalTime"]);
                         totalMin = moment.duration(weeks['weeks'][week-1]["totalTime"]).asMinutes();
                         lastWeek = currentWeek;
 
-
-                        // if(worstWeekTime == 0){
-                        //     worstWeekTime = weeks['weeks'][week-1]["totalTime"];
-                        // }
-                        console.log("bestWeekTime " + bestWeekTime);
                         if(totalMin > bestWeekMin){
                             bestWeekTime = weeks['weeks'][week-1]["totalTime"];
                             bestWeekMin = totalMin;
                             bestWeek = week-1;
                         }
 
-                        if(weeks['weeks'][week-1]["totalTime"] < worstWeekTime){
+                        if(worstWeekMin == 0){
+                            worstWeekMin = totalMin;
                             worstWeekTime = weeks['weeks'][week-1]["totalTime"];
+                        }
+
+                        if(totalMin < worstWeekMin){
+                            worstWeekTime = weeks['weeks'][week-1]["totalTime"];
+                            worstWeekMin = totalMin;
                             worstWeek = week-1;
                         }
 
@@ -128,8 +156,7 @@ function prepHours(usrData,data){
 
                     }
                     weeks['weeks'][week]["days"][hDate] = tmp;
-
-                    //console.log("week " + week + " - " + weeks["worstWeek"]['time']);
+                    counter++;
                 })
 
                 weeks["bestWeek"]['week'] = bestWeek;
@@ -145,6 +172,7 @@ function prepHours(usrData,data){
     });
 }
 
+
 function getDayOfWeek(date){
     return day;
 }
@@ -156,6 +184,13 @@ function minTommss(minutes){
     return sign + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
 }
 
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 // var curr = new Date; // get current date
 // var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
