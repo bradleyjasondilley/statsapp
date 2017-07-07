@@ -13,6 +13,7 @@
     <script src="service/grabStats.js" type="text/javascript" charset="utf-8"></script>
     <script src="service/getData.js" type="text/javascript" charset="utf-8"></script>    
     <script src="controllers/StatsCtrl.js" type="text/javascript" charset="utf-8"></script>
+    <script src="controllers/UsrStatsCtrl.js" type="text/javascript" charset="utf-8"></script>
     <script src="directives/stHoursLogged.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
   </head>
@@ -20,7 +21,7 @@
 
         <div class="container-fluid">
             <div ng-app="UserStats">
-                <div ng-controller="StatsCtrl">
+                <div ng-controller="UsrStatsCtrl">
                     <st-hours-logged></st-hours-logged>
                 </div>
             </div>

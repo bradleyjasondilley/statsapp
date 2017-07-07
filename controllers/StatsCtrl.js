@@ -8,7 +8,7 @@ angular.module('UserStats').controller('StatsCtrl', function ($scope,$http,DataR
 
     //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
     //var hoursUrl = 'kpi/hours/?startDate=20170110&endDate=20170120';
-    var hoursUrl = 'assets/data/data.json';
+    var hoursUrl = 'assets/data/data2.json';
 
     DataRequest.getData(usrUrl, 
         function(returnedData) {
