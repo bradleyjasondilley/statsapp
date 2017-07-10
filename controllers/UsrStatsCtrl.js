@@ -1,6 +1,7 @@
 angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DataRequest){
     $scope.usrData = {"taskpoola":{},"taskpoolb":{},"taskpoolc":{},"taskpoold":{},"taskpooluk":{}};
     $scope.whichPool = 'taskpoola';
+    $scope.weeksSelect = 2;
 
 
 
@@ -149,6 +150,10 @@ function prepHours(usrData,data){
                             worstWeek = week-1;
                         }
 
+                        split = weeks[week-1]["totalHoursTime"].split(":");
+                        weeks[week-1]["totalHoursTimeHours"] = split[0];
+                        weeks[week-1]["totalHoursTimeMins"] = split[1];
+
                         weekTotals["bestWeek"]['hoursWeek'] = bestWeek;
                         weekTotals["bestWeek"]['hoursTime'] = bestWeekTime;
 
@@ -167,10 +172,9 @@ function prepHours(usrData,data){
                 weekTotals["worstWeek"]['hoursTime'] = worstWeekTime;
 
                 weeks[currentWeek]["totalHoursTime"] = minTommss(weeks[currentWeek]["totalHoursValue"]);
-                // /split = weeks[currentWeek]["totalHoursTime"].split(":");
-                //console.log(split[0]);
-                //weeks[currentWeek]["totalHoursTimeHours"] = split[0];
-                //weeks[currentWeek]["totalHoursTimeHours"] = split[1];
+                split = weeks[currentWeek]["totalHoursTime"].split(":");
+                weeks[currentWeek]["totalHoursTimeHours"] = split[0];
+                weeks[currentWeek]["totalHoursTimeMins"] = split[1];
                 usrData[pool][name]['weeks'] = weeks;
                 usrData[pool][name]['totals'] = weekTotals;
             }       

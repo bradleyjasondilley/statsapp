@@ -21,6 +21,9 @@ body{
     border: 1px solid silver;
 }
 
+.member select{
+}
+
 .usrAvatar{
     background-image: url('../images/avatar.png');
     width: 225px;
@@ -68,9 +71,36 @@ body{
 .data_weeks{
     padding: 5px;
     margin: 5px;
-    border: 1px solid black;
 }
 
 .data_week_day{
     display: block;
+}
+
+.logged_head{
+    background: url(../images/logged.gif) no-repeat;
+    width: 28px;
+    height: 161px;
+    float: left;
+    margin-left: 50px;
+}
+
+.logged_display{
+    float: left;
+    text-align: right;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    color: #31a66c;
+    font-size: 100px;
+    line-height: 80px;
+    margin-left: 20px;
+    
+}
+
+.logged_display span{
+    width: 220px;
+}
+
+.clear_both{
+    clear: both;
 }
