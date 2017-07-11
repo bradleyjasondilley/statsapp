@@ -3,6 +3,19 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     $scope.whichPool = 'taskpoola';
     $scope.weeksSelect = 2;
 
+    $scope.myJson = {
+      type : "bar",
+        "scale-x":{
+            values:["Mon","Tue","Wed","Thur","Fri"]
+        },
+        series : [
+        {
+          values : [8,2.25,4.75,4,5],
+          backgroundColor : "#31a66c"
+        }
+      ]
+    };
+
 
 
     var usrUrl = 'assets/data/userInfo.json';
@@ -27,12 +40,25 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         function(returnedData) {
             //$scope.usrStats = prepData($scope,returnedData.data);
             prepHours($scope.usrData,returnedData.data);
+            //prepChartData($scope.usrData);
         },
         function(returnedData) {
             console.log("failure");
         }
     );
 });
+
+function prepChartData(data){
+    $.each(data, function(pool, users) {
+        $.each(users, function(name, usrData) {
+            $.each(usrData, function(key, value) {
+                if(key == "weeks"){
+                    console.log("key " + key + " value " + value);
+                }
+            });
+        });
+    });
+}
 
 function prepUsers(usrData,userData){
 
@@ -76,6 +102,9 @@ function prepHours(usrData,data){
 
 
             if(typeof usrData[pool] != "undefined"){
+                var chartDay = [];
+                var chartTime = [];
+                var chartHours = [];
                 
                 $.each(hours, function(hDate,hTime){
 
@@ -85,7 +114,10 @@ function prepHours(usrData,data){
 
                     var tmp = {};
                     tmp['timeLogged'] = minTommss(hTime);
-                    tmp['day'] = moment(hDate).format("dddd");
+                    tmp['time'] = hTime;
+                    tmp['day'] = moment(hDate).format("ddd");
+
+
                     var week = moment(hDate).week();
                     currentWeek = week;
                     
@@ -102,6 +134,10 @@ function prepHours(usrData,data){
                     }
                     if(!weeks[week]["days"]){
                         weeks[week]["days"] = {};
+                    }
+
+                    if(!weeks[week]["chartData"]){
+                        weeks[week]["chartData"] = {};
                     }
                     
 
@@ -128,6 +164,7 @@ function prepHours(usrData,data){
                         }
 
                     }else{
+                        console.log("reset");
                         weeks[week]["totalHoursValue"] += parseFloat(hTime);
                         weeks[week-1]["totalHoursTime"] = minTommss(weeks[week-1]["totalHoursValue"]);
                         totalMin = moment.duration(weeks[week-1]["totalHoursTime"]).asMinutes();
@@ -159,9 +196,32 @@ function prepHours(usrData,data){
 
                         weekTotals["worstWeek"]['hoursWeek'] = worstWeek;
                         weekTotals["worstWeek"]['hoursTime'] = worstWeekTime;
-
+                        chartDay = [];
+                        chartTime = [];
+                        chartHours = [];
                     }
+
+                    chartDay.push(tmp['day']);
+                    chartTime.push(tmp['timeLogged']);
+                    chartHours.push(tmp['time']);
+
+                    console.log("chartDay " + chartDay);
+
+
                     weeks[week]["days"][hDate] = tmp;
+                    var chart = {type : "bar", "scale-x" : {}, "scale-y":{"values":"0:12:1"}, "series":[{}] };
+
+                    chart["scale-x"]["values"] = chartDay;
+                    chart["series"][0]['values'] = chartHours;
+                    chart["series"][0]["backgroundColor"] = "#31a66c";
+                    // chart['x'] = chartDay;
+                    // chart['y'] = chartTime;
+                    // chart['hours'] = chartHours;
+                    // chart['type'] = "bar";
+
+                    //chartDay = chartTime = chartHours = [];
+                    
+                    weeks[week]["chartData"] = chart;
                     counter++;
                 })
 

@@ -32,8 +32,11 @@
             <div class="data_weeks" ng-repeat="(weekNumber, weekData) in memberData.weeks" id="{{member}}_week_{{weekNumber}}" ng-show="weeksSelect == weekNumber">
                 <div class="logged_head"></div>
                 <div class="logged_display">
-                    <span>{{weekData.totalHoursTimeHours}}h</span><br>
+                    <span>{{weekData.totalHoursTimeHours}}h</span><br/>
                     <span>{{weekData.totalHoursTimeMins}}m</span>
+                </div>
+                <div class="logged_chart" id="{{member}}_{{weekNumber}}">
+                    <zingchart class="loggedChart" id="myChart_{{member}}_{{weekNumber}}" zc-json="weekData.chartData" zc-height="250" zc-width="400" ></zingchart>
                 </div>
                 <div class="clear_both"></div>
                 <!--<div class="clear_both">{{weekData.totalHoursTime}}</div>-->

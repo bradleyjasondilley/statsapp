@@ -21,6 +21,10 @@ body{
     border: 1px solid silver;
 }
 
+#myChart-license-text{
+    display: none;
+}
+
 .member select{
 }
 
@@ -95,6 +99,16 @@ body{
     line-height: 80px;
     margin-left: 20px;
     
+}
+.logged_chart{
+    float: left;
+    max-height: 160px;
+    overflow: hidden;
+}
+
+.loggedChart{
+    top: -47px;
+    position: relative;
 }
 
 .logged_display span{

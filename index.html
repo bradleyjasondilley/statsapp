@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Queue Order | SLI Commerce Console</title>
     <script src="jquery-3.1.0.js"></script>
+    <script src="fusioncharts.js"></script>
     <script src="angular.js"></script>
+    <script src = "https://cdn.zingchart.com/zingchart.min.js" ></script>  
+    <script src = "https://cdn.zingchart.com/angular/zingchart-angularjs.js" ></script>  
+
+
     <script src="angular-route.js"></script>
     <script src="angular-resource.js"></script>
     <script src="moment.js"></script>
@@ -15,10 +20,10 @@
     <script src="controllers/StatsCtrl.js" type="text/javascript" charset="utf-8"></script>
     <script src="controllers/UsrStatsCtrl.js" type="text/javascript" charset="utf-8"></script>
     <script src="directives/stHoursLogged.js" type="text/javascript" charset="utf-8"></script>
+    <script src="angular-fusioncharts.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
   </head>
     <body>
-
         <div class="container-fluid">
             <div ng-app="UserStats">
                 <div ng-controller="UsrStatsCtrl">
@@ -26,6 +31,5 @@
                 </div>
             </div>
         </div>
-
     </body>
 </html>
