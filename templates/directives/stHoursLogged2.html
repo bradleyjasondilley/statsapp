@@ -36,7 +36,8 @@
                     <span>{{weekData.totalHoursTimeMins}}m</span>
                 </div>
                 <div class="logged_chart" id="{{member}}_{{weekNumber}}">
-                    <zingchart class="loggedChart" id="myChart_{{member}}_{{weekNumber}}" zc-json="weekData.chartData" zc-height="250" zc-width="400" ></zingchart>
+                    <!-- <zingchart class="loggedChart" id="myChart_{{member}}_{{weekNumber}}" zc-json="weekData.chartData" zc-height="250" zc-width="400" ></zingchart> -->
+                    <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series"> </canvas>
                 </div>
                 <div class="logged_usr_details">
                     <span>YOUR STATS</span><br>

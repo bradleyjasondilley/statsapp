@@ -3,7 +3,7 @@ body{
 }
 
 .usrHeading{
-    width: 80%;
+    width: 1000px;
     margin: 20px auto;
     background-color: #31a66c;
     height: 300px;
@@ -12,7 +12,7 @@ body{
 }
 
 .member{
-    width: 80%;
+    width: 1000px;
     margin: 20px auto;
     background-color: #fff;
     min-height: 100px;
