@@ -22,7 +22,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
     //var hoursUrl = 'kpi/hours/?startDate=20170110&endDate=20170120';
-    var hoursUrl = 'assets/data/data2.json';
+    var hoursUrl = 'assets/data/data.json';
 
     DataRequest.getData(usrUrl, 
         function(returnedData) {
@@ -204,8 +204,6 @@ function prepHours(usrData,data){
                     chartDay.push(tmp['day']);
                     chartTime.push(tmp['timeLogged']);
                     chartHours.push(tmp['time']);
-
-                    console.log("chartDay " + chartDay);
 
 
                     weeks[week]["days"][hDate] = tmp;

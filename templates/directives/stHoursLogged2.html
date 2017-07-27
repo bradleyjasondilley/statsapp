@@ -38,6 +38,29 @@
                 <div class="logged_chart" id="{{member}}_{{weekNumber}}">
                     <zingchart class="loggedChart" id="myChart_{{member}}_{{weekNumber}}" zc-json="weekData.chartData" zc-height="250" zc-width="400" ></zingchart>
                 </div>
+                <div class="logged_usr_details">
+                    <span>YOUR STATS</span><br>
+                    <div class="yourStats">
+                        <div class="title">Best week time:</div>
+                        <div class="content">{{memberData.totals.bestWeek.hoursTime}}</div>
+                        <div class="clear_both"></div>
+                    </div>
+                    <div class="yourStats">
+                        <div class="title">Best week:</div>
+                        <div class="content">{{memberData.totals.bestWeek.hoursWeek}}</div>
+                        <div class="clear_both"></div>
+                    </div>
+                    <div class="yourStats">
+                        <div class="title">Worst week time:</div>
+                        <div class="content">{{memberData.totals.worstWeek.hoursTime}}</div>
+                        <div class="clear_both"></div>
+                    </div>
+                    <div class="yourStats">
+                        <div class="title">Worst week:</div>
+                        <div class="content">{{memberData.totals.worstWeek.hoursWeek}}</div>
+                        <div class="clear_both"></div>
+                    </div>
+                </div>
                 <div class="clear_both"></div>
                 <!--<div class="clear_both">{{weekData.totalHoursTime}}</div>-->
             </div>

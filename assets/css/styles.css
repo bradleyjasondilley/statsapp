@@ -49,7 +49,8 @@ body{
 
 .usrName {
     position: relative;
-    font-family: Arial Black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
     top: 110px;
     left: 100px;
     font-size: 40px;
@@ -117,4 +118,33 @@ body{
 
 .clear_both{
     clear: both;
+}
+
+.logged_usr_details{
+    float:left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    color: #31a66c;
+    font-size: 16px;
+}
+
+.yourStats{
+    color: #000;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.title, .content{
+    float:left;
+}
+
+.title{
+    width:100px;
+    text-align: right;
+}
+
+.content{
+    padding-left:10px;
+    width:100px;
+    font-weight: bold;
 }
