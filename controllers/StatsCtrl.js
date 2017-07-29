@@ -1,4 +1,5 @@
 angular.module('UserStats').controller('StatsCtrl', function ($scope,$http,DataRequest){
+    //usrData = poolData - TODO: replace name
     $scope.usrData = {"taskpoola":{},"taskpoolb":{},"taskpoolc":{},"taskpoold":{},"taskpooluk":{}};
     $scope.whichPool = 'taskpoola';
 
@@ -34,7 +35,7 @@ angular.module('UserStats').controller('StatsCtrl', function ($scope,$http,DataR
 });
 
 function prepUsers(usrData,userData){
-
+    console.log(userData);
     $.each(usrData, function(pool, users) {
 
         $.each(userData, function(name, info) {
@@ -44,6 +45,7 @@ function prepUsers(usrData,userData){
         });
 
     });
+
 }
 
 function prepHours(usrData,data){

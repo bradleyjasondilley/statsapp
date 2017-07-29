@@ -33,6 +33,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     DataRequest.getData(usrUrl, 
         function(returnedData) {
+            console.log('fresh state',returnedData.data);
             $scope.users = returnedData.data;
             prepUsers($scope.usrData,returnedData.data);
             //console.log("usr");
@@ -53,6 +54,19 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
             console.log("failure");
         }
     );
+
+    $scope.takeScreenShot = function() {
+        console.log('taking a screenshot!');
+        //hide selector of pools
+        $('#actions-wrapper').hide()
+        html2canvas(document.body, {
+            onrendered: function(canvas) {
+                console.log('screenshot done!');
+                document.body.appendChild(canvas);
+                $('#actions-wrapper').show()
+            }
+        });
+    }
 });
 
 function prepChartData(data){
@@ -82,8 +96,6 @@ function prepUsers(usrData,userData){
 
 function prepHours(usrData,data){
 
-    
-
     $.each(data, function(pool, users) {
         $.each(users, function(name, hours) {
             var cleanHours = [];
@@ -96,7 +108,7 @@ function prepHours(usrData,data){
             var bestWeek = 0;
             var bestWeekTime = "";
             var bestWeekMin = 0;
-            var worstWeek = 0;            
+            var worstWeek = 0;
             var worstWeekTime = "";
             var worstWeekMin = 0;
             var totalEntries = Object.size(hours);
@@ -112,7 +124,7 @@ function prepHours(usrData,data){
                 var chartDay = [];
                 var chartTime = [];
                 var chartHours = [];
-                
+
                 $.each(hours, function(hDate,hTime){
 
                     if (counter === totalEntries - 1) {
@@ -129,12 +141,12 @@ function prepHours(usrData,data){
                     usrData[pool][name]["currentWeek"] = week;
                     var year = moment(hDate).year();
                     currentWeek = week;
-                    
+
                     if(firstRun){
                         lastWeek = currentWeek;
                         firstRun = false;
                     }
-                    
+
                     if(!weeks[week]){
                         weeks[week] = {};
                     }
@@ -148,11 +160,11 @@ function prepHours(usrData,data){
                     if(!weeks[week]["chartData"]){
                         weeks[week]["chartData"] = {};
                     }
-                    
+
 
                     if(currentWeek == lastWeek){
                         weeks[week]["totalHoursValue"] += parseFloat(hTime);
-                        
+
                         if(lastRun){
                             weeks[week]["totalHoursTime"] = minTommss(weeks[week]["totalHoursValue"]);
                             totalMin = moment.duration(weeks[week]["totalHoursTime"]).asMinutes();
@@ -222,7 +234,7 @@ function prepHours(usrData,data){
                     chart["labels"] = chartDay;
                     chart["data"] = chartHours;
                     chart["colors"] = genColours(chartHours);;
-                    
+
                     weeks[week]["chartData"] = chart;
                     counter++;
                 })
@@ -239,7 +251,7 @@ function prepHours(usrData,data){
                 weeks[currentWeek]["totalHoursTimeMins"] = split[1];
                 usrData[pool][name]['weeks'] = weeks;
                 usrData[pool][name]['totals'] = weekTotals;
-            }       
+            }
         });
     });
 }
@@ -284,6 +296,7 @@ Object.size = function(obj) {
     }
     return size;
 };
+
 
 // var curr = new Date; // get current date
 // var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
