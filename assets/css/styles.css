@@ -129,30 +129,37 @@ body{
 }
 
 .logged_usr_details{
-    float:left;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: 900;
-    color: #31a66c;
-    font-size: 16px;
-}
-
-.yourStats{
+    float:left;
     color: #000;
     font-size: 12px;
     font-weight: normal;
 }
 
-.title, .content{
+.logged_usr_details span{
+    display: block;
+    font-weight: 900;
+    color: #31a66c;
+    font-size: 16px;
+}
+
+.stats{
+    padding-left: 15px;
+    padding-top: 35px;
+    width: 150px;
+}
+
+.logged_usr_details .title, .content{
     float:left;
 }
 
-.title{
-    width:100px;
+.logged_usr_details .title{
+    width:80px;
     text-align: right;
+    font-weight: bold;
 }
 
-.content{
+.logged_usr_details .content{
     padding-left:10px;
-    width:100px;
-    font-weight: bold;
+    width:50px;
 }

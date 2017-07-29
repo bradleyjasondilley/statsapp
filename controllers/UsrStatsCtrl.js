@@ -1,5 +1,10 @@
 angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DataRequest){
-    $scope.usrData = {"taskpoola":{},"taskpoolb":{},"taskpoolc":{},"taskpoold":{},"taskpooluk":{}};
+    $scope.curretUser = getURLParameter('usr');
+    $scope.thisUserPool = "";
+    $scope.thisUser;
+    
+    $scope.users;
+    $scope.displayData = {};
     $scope.whichPool = 'taskpoola';
     $scope.date = moment().format('YYYY MM DD');
     $scope.date = $scope.date.replace(/\s+/g,'-');
@@ -7,24 +12,9 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     $scope.currentWeek = 3;
     $scope.weeksSelect = 2;
 
-    $scope.myJson = {
-      type : "bar",
-        "scale-x":{
-            values:["Mon","Tue","Wed","Thur","Fri"]
-        },
-        series : [
-        {
-          values : [8,2.25,4.75,4,5],
-          backgroundColor : "#31a66c"
-        }
-      ]
-    };
 
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A'];
-    $scope.colors = ["#cccccc","#FF00FF","#0000ff"]
-    $scope.data = [ 65, 59, 80, 81, 56, 55, 40 ];
-
+    $scope.displayData;
+    
     var usrUrl = 'assets/data/userInfo.json';
 
     //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
@@ -34,57 +24,92 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     DataRequest.getData(usrUrl, 
         function(returnedData) {
             $scope.users = returnedData.data;
-            prepUsers($scope.usrData,returnedData.data);
-            //console.log("usr");
-            console.log($scope.usrData);
+            localData = prepUsers($scope.users);
+            console.log(localData);
+            //now get hours
+            DataRequest.getData(hoursUrl, 
+                function(returned) {
+                    newUsers = prepHours(localData,returned.data);
+                    $scope.usrData = newUsers;
+                    console.log("this usrpool",$scope.thisUserPool);
+                    $scope.displayData = buildDisplayObject($scope.curretUser);
+                    console.log($scope.displayData);
+                },
+                function(returned) {
+                    console.log("get hours - failure");
+                }
+            );
         },
         function(returnedData) {
-            console.log("failure");
+            console.log("get users - failure");
         }
     );
 
-    DataRequest.getData(hoursUrl, 
-        function(returnedData) {
-            //$scope.usrStats = prepData($scope,returnedData.data);
-            prepHours($scope.usrData,returnedData.data);
-            //prepChartData($scope.usrData);
-        },
-        function(returnedData) {
-            console.log("failure");
-        }
-    );
-});
+    function buildDisplayObject(usr){
+        localData = $scope.usrData;
+        var access = localData[$scope.thisUserPool][$scope.curretUser]["access"];
+        var tmpDisplay = {};
 
-function prepChartData(data){
-    $.each(data, function(pool, users) {
-        $.each(users, function(name, usrData) {
-            $.each(usrData, function(key, value) {
-                if(key == "weeks"){
-                    console.log("key " + key + " value " + value);
+
+        if(access == "all"){
+            return localData;
+        }else{
+            $.each(localData, function(pool, users) {
+                
+                if(pool == $scope.thisUserPool){
+                    if(access == "team"){
+                        tmpDisplay[pool] = users;
+                        return false;
+                    }else{
+                        $.each(users, function(name, data) {
+                            if(name == usr){
+                                if(!tmpDisplay[pool]){
+                                    tmpDisplay[pool] = {};
+                                    tmpDisplay[pool][usr] = data;
+                                    return false;
+                                }
+                            }
+                        });
+                        return false;
+                    }
                 }
             });
-        });
-    });
-}
+        }
+        return tmpDisplay;
+    }
 
-function prepUsers(usrData,userData){
+    function prepUsers(requestData){
+    localUsrData = {"taskpoola":{},"taskpoolb":{},"taskpoolc":{},"taskpoold":{},"taskpooluk":{},"manager":{}};
+    localRequestData = requestData;
 
-    $.each(usrData, function(pool, users) {
+    $.each(localUsrData, function(pool, users) {
 
-        $.each(userData, function(name, info) {
+        $.each(localRequestData, function(name, info) {
             if(info['pool'] == pool){
-                usrData[pool][name] = info;
+                localUsrData[pool][name] = info;
+                if(name == $scope.curretUser){
+                    $scope.thisUserPool = pool;
+                }
             }
         });
 
     });
+    var addedUsr = {};
+    addedUsr["name"] = "Matthew Brovelli";
+    if(!localUsrData["manager"]){
+        localUsrData["manager"] = {};
+        localUsrData["manager"]["matthewb"] = addedUsr;
+    }
+    return localUsrData;
 }
 
+});
+
 function prepHours(usrData,data){
+    localUsrData = usrData;
+    localData = data;
 
-    
-
-    $.each(data, function(pool, users) {
+    $.each(localData, function(pool, users) {
         $.each(users, function(name, hours) {
             var cleanHours = [];
             var weeks = {};
@@ -108,7 +133,7 @@ function prepHours(usrData,data){
 
 
 
-            if(typeof usrData[pool] != "undefined"){
+            if(typeof localUsrData[pool] != "undefined"){
                 var chartDay = [];
                 var chartTime = [];
                 var chartHours = [];
@@ -126,7 +151,7 @@ function prepHours(usrData,data){
 
 
                     var week = moment(hDate).week();
-                    usrData[pool][name]["currentWeek"] = week;
+                    localUsrData[pool][name]["currentWeek"] = week;
                     var year = moment(hDate).year();
                     currentWeek = week;
                     
@@ -173,7 +198,6 @@ function prepHours(usrData,data){
                         }
 
                     }else{
-                        console.log("reset");
                         weeks[week]["totalHoursValue"] += parseFloat(hTime);
                         weeks[week-1]["totalHoursTime"] = minTommss(weeks[week-1]["totalHoursValue"]);
                         totalMin = moment.duration(weeks[week-1]["totalHoursTime"]).asMinutes();
@@ -237,11 +261,12 @@ function prepHours(usrData,data){
                 split = weeks[currentWeek]["totalHoursTime"].split(":");
                 weeks[currentWeek]["totalHoursTimeHours"] = split[0];
                 weeks[currentWeek]["totalHoursTimeMins"] = split[1];
-                usrData[pool][name]['weeks'] = weeks;
-                usrData[pool][name]['totals'] = weekTotals;
+                localUsrData[pool][name]['weeks'] = weeks;
+                localUsrData[pool][name]['totals'] = weekTotals;
             }       
         });
     });
+    return localUsrData;
 }
 
 function genColours(data){
@@ -285,12 +310,6 @@ Object.size = function(obj) {
     return size;
 };
 
-// var curr = new Date; // get current date
-// var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-// var last = first + 6; // last day is the first day + 6
-
-// var firstday = new Date(curr.setDate(first)).toUTCString();
-// var lastday = new Date(curr.setDate(last)).toUTCString();
-
-// console.log("first = " + firstday);
-// console.log("last = " + lastday);
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}

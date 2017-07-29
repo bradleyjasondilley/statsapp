@@ -1,12 +1,12 @@
 <div>
 
 <form>
-    <select ng-model="whichPool">
-        <option ng-repeat="(key, data) in usrData" value="{{key}}">{{key}}</option>
+    <select ng-model="thisUserPool">
+        <option ng-repeat="(key, data) in displayData" value="{{key}}">{{key}}</option>
     </select>
 </form>
 
-<div ng-repeat="(pool, members) in usrData" id="{{pool}}" class="pool" ng-if="whichPool === pool">
+<div ng-repeat="(pool, members) in displayData" id="{{pool}}" class="pool" ng-if="thisUserPool === pool">
     <div ng-repeat="(member, memberData) in members">
         <div class="usrHeading">
             <div class="usrAvatar"></div>
@@ -18,8 +18,6 @@
                 <span ng-repeat="role in memberData.roles">{{role}} .::. </span>
             </div>
         </div>
-
-        
 
         <div class="member">
             <!-- <div class="data_weeks" ng-repeat="(weekNumber, weekData) in memberData.weeks" id="{{member}}_week_{{weekNumber}}">
@@ -42,26 +40,41 @@
                 <div class="logged_chart" id="{{member}}_{{weekNumber}}">
                     <canvas class="chart chart-bar" chart-data="weekData.chartData.data" chart-labels="weekData.chartData.labels" chart-series="series" chart-colors="weekData.chartData.colors"> </canvas>
                 </div>
-                <div class="logged_usr_details">
-                    <span>YOUR STATS</span><br>
-                    <div class="yourStats">
-                        <div class="title">Best week time:</div>
-                        <div class="content">{{memberData.totals.bestWeek.hoursTime}}</div>
-                        <div class="clear_both"></div>
-                    </div>
-                    <div class="yourStats">
+                <div class="logged_usr_details stats">
+                    <span>YOUR STATS</span>
+                    <div>
                         <div class="title">Best week:</div>
-                        <div class="content">{{memberData.totals.bestWeek.hoursWeek}}</div>
+                        <div class="content">
+                            {{memberData.totals.bestWeek.hoursTime}} </br>
+                            Week {{memberData.totals.bestWeek.hoursWeek}}
+                        </div>
                         <div class="clear_both"></div>
                     </div>
-                    <div class="yourStats">
-                        <div class="title">Worst week time:</div>
-                        <div class="content">{{memberData.totals.worstWeek.hoursTime}}</div>
-                        <div class="clear_both"></div>
-                    </div>
-                    <div class="yourStats">
+                    <div>
                         <div class="title">Worst week:</div>
-                        <div class="content">{{memberData.totals.worstWeek.hoursWeek}}</div>
+                        <div class="content">
+                            {{memberData.totals.worstWeek.hoursTime}} </br>
+                            Week {{memberData.totals.worstWeek.hoursWeek}}
+                        </div>
+                        <div class="clear_both"></div>
+                    </div>
+                </div>
+                <div class="logged_usr_details stats">
+                    <span>TEAM STATS</span>
+                    <div>
+                        <div class="title">Best week:</div>
+                        <div class="content">
+                            {{memberData.totals.bestWeek.hoursTime}} </br>
+                            Week {{memberData.totals.bestWeek.hoursWeek}}
+                        </div>
+                        <div class="clear_both"></div>
+                    </div>
+                    <div>
+                        <div class="title">Worst week:</div>
+                        <div class="content">
+                            {{memberData.totals.worstWeek.hoursTime}} </br>
+                            Week {{memberData.totals.worstWeek.hoursWeek}}
+                        </div>
                         <div class="clear_both"></div>
                     </div>
                 </div>
