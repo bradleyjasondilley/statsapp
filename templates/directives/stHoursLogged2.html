@@ -19,9 +19,7 @@
             </div>
         </div>
 
-        <select name="weeks" id="{{member}}_weeks" ng-model="weeksSelect">
-            <option ng-repeat="(key, value) in memberData.weeks" value="{{key}}">Week {{key}}</option>
-        </select>
+        
 
         <div class="member">
             <!-- <div class="data_weeks" ng-repeat="(weekNumber, weekData) in memberData.weeks" id="{{member}}_week_{{weekNumber}}">
@@ -29,15 +27,20 @@
                 <span class="data_week_day" ng-repeat="(weekday, dayInfo) in weekData.days">{{weekday}} - {{dayInfo.day}} - {{dayInfo.timeLogged}}</span>
                 <span>{{weekData.totalHoursTime}}</span>
             </div> -->
-            <div class="data_weeks" ng-repeat="(weekNumber, weekData) in memberData.weeks" id="{{member}}_week_{{weekNumber}}" ng-show="weeksSelect == weekNumber">
+            <div class="week_select">
+                <select name="weeks" id="{{member}}_weeks" ng-model="currentWeek">
+                    <option ng-repeat="(key, value) in memberData.weeks" value="{{key}}" ng-selected="key == currentWeek">Week {{key}}</option>
+                </select>    
+            </div>
+            
+            <div class="data_weeks" ng-repeat="(weekNumber, weekData) in memberData.weeks" id="{{member}}_week_{{weekNumber}}" ng-show="currentWeek == weekNumber">
                 <div class="logged_head"></div>
                 <div class="logged_display">
                     <span>{{weekData.totalHoursTimeHours}}h</span><br/>
                     <span>{{weekData.totalHoursTimeMins}}m</span>
                 </div>
                 <div class="logged_chart" id="{{member}}_{{weekNumber}}">
-                    <!-- <zingchart class="loggedChart" id="myChart_{{member}}_{{weekNumber}}" zc-json="weekData.chartData" zc-height="250" zc-width="400" ></zingchart> -->
-                    <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series"> </canvas>
+                    <canvas class="chart chart-bar" chart-data="weekData.chartData.data" chart-labels="weekData.chartData.labels" chart-series="series" chart-colors="weekData.chartData.colors"> </canvas>
                 </div>
                 <div class="logged_usr_details">
                     <span>YOUR STATS</span><br>

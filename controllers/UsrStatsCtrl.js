@@ -1,6 +1,10 @@
 angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DataRequest){
     $scope.usrData = {"taskpoola":{},"taskpoolb":{},"taskpoolc":{},"taskpoold":{},"taskpooluk":{}};
     $scope.whichPool = 'taskpoola';
+    $scope.date = moment().format('YYYY MM DD');
+    $scope.date = $scope.date.replace(/\s+/g,'-');
+    $scope.currentWeek = moment($scope.date).week();
+    $scope.currentWeek = 3;
     $scope.weeksSelect = 2;
 
     $scope.myJson = {
@@ -18,10 +22,8 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
     $scope.series = ['Series A'];
-
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40]
-    ];
+    $scope.colors = ["#cccccc","#FF00FF","#0000ff"]
+    $scope.data = [ 65, 59, 80, 81, 56, 55, 40 ];
 
     var usrUrl = 'assets/data/userInfo.json';
 
@@ -124,6 +126,8 @@ function prepHours(usrData,data){
 
 
                     var week = moment(hDate).week();
+                    usrData[pool][name]["currentWeek"] = week;
+                    var year = moment(hDate).year();
                     currentWeek = week;
                     
                     if(firstRun){
@@ -212,17 +216,12 @@ function prepHours(usrData,data){
 
 
                     weeks[week]["days"][hDate] = tmp;
-                    var chart = {type : "bar", "scale-x" : {}, "scale-y":{"values":"0:12:1"}, "series":[{}] };
+                    //var chart = {type : "bar", "scale-x" : {}, "scale-y":{"values":"0:12:1"}, "series":[{}] };
+                    var chart = {};
 
-                    chart["scale-x"]["values"] = chartDay;
-                    chart["series"][0]['values'] = chartHours;
-                    chart["series"][0]["backgroundColor"] = "#31a66c";
-                    // chart['x'] = chartDay;
-                    // chart['y'] = chartTime;
-                    // chart['hours'] = chartHours;
-                    // chart['type'] = "bar";
-
-                    //chartDay = chartTime = chartHours = [];
+                    chart["labels"] = chartDay;
+                    chart["data"] = chartHours;
+                    chart["colors"] = genColours(chartHours);;
                     
                     weeks[week]["chartData"] = chart;
                     counter++;
@@ -243,6 +242,27 @@ function prepHours(usrData,data){
             }       
         });
     });
+}
+
+function genColours(data){
+
+    var range = ["#FF1202","#FF9900","#E4FF00","#75FE00","#00FE00"]
+    var colours = [];
+    for (var i = 0; i < data.length; i++) {
+        if(data[i] < 5){
+           colours.push(range[0]);
+        }else if(data[i] < 5.5){
+           colours.push(range[1]);
+        }else if(data[i] < 6){
+           colours.push(range[2]);
+        }else if(data[i] < 6.5){
+           colours.push(range[3]);
+        }else if(data[i] >= 7){
+           colours.push(range[4]);
+        }
+    }
+
+    return colours;
 }
 
 

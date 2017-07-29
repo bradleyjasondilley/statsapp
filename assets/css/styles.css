@@ -19,6 +19,7 @@ body{
     border-radius: 10px;
     box-shadow: 2px 2px 2px #888888;
     border: 1px solid silver;
+    position: relative;
 }
 
 #myChart-license-text{
@@ -36,6 +37,13 @@ body{
     top:50px;
     left: 50px;
     float:left;
+}
+
+.week_select{
+    position: absolute;
+    right: 5px;
+    text-align: right;
+    top: 5px;
 }
 
 .usrInfo{
@@ -59,9 +67,9 @@ body{
 .usrPosition{
     position: relative;
     font-family: Arial;
-    top: 100px;
+    top: 108px;
     left: 100px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .usrRole{
@@ -103,13 +111,13 @@ body{
 }
 .logged_chart{
     float: left;
-    max-height: 160px;
-    overflow: hidden;
+    padding: 10px 0 0 10px;
 }
 
-.loggedChart{
-    top: -47px;
-    position: relative;
+
+.logged_chart canvas, .logged_chart iframe{
+    width: 300px !important;
+    height: 150px !important;
 }
 
 .logged_display span{
