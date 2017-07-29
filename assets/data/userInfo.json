@@ -3,210 +3,252 @@
 		"name": "Amr Hussein",
 		"position": "Client Facing engineer",
 		"roles": ["Support","On-Call","SEO","Training"],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"single"
 	},
 	"kyungjinh": {
 		"name": "Kyung-Jin",
 		"position": "Client Facing engineer",
 		"roles": ["Support"],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"single"
 	},
 	"alexanderb": {
 		"name": "Alexander Bayliss",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"single"
 	},
 	"samb": {
 		"name": "Sam Botting",
 		"position": "Client Facing engineer",
 		"roles": ["Analytics"],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"single"
 	},
 	"wouterv": {
 		"name": "Wouter Verwoerd",
 		"position": "Client Facing engineer",
 		"roles": ["DB","Analytics"],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"single"
 	},
 	"ruig": {
 		"name": "Rui Gong",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"single"
 	},
 	"adamf": {
 		"name": "Adam Freeman",
 		"position": "Client Facing engineer",
 		"roles": ["Team lead","Template Builder","On-call","RAC Dev","Testing"],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"team"
 	},
 	"jakubg": {
 		"name": "Jakub Gereg",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoola"
+		"pool":"taskpoola",
+		"access":"single"
 	},
 	"shaunp": {
 		"name": "Shaun Phillips",
 		"position": "Client Facing engineer",
 		"roles": ["Support","Platform Support"],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"single"
 	},
 	"christopherh": {
 		"name": "Christopher Harding",
 		"position": "Client Facing engineer",
 		"roles": ["Platform Support","Support","Training"],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"single"
 	},
 	"yukif": {
 		"name": "Yuki Fujii",
 		"position": "Client Facing engineer",
 		"roles": ["Platform Support"],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"single"
 	},
 	"carlz": {
 		"name": "Carl Zogheib",
 		"position": "Client Facing engineer",
 		"roles": ["Analytics"],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"single"
 	},
 	"bradleyd": {
 		"name": "Bradley Dilley",
-		"position": "Client Facing engineer",
+		"position": "Client Facing Manager",
 		"roles": [""],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"all"
 	},
 	"steffenw": {
 		"name": "Steffen",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"single"
 	},
 	"paulk": {
 		"name": "Paul Kibblewhite",
 		"position": "Client Facing engineer",
 		"roles": ["Template Builder","On-Call"],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"single"
 	},
 	"fionaf": {
 		"name": "Fiona Forsythe",
 		"position": "Client Facing engineer",
 		"roles": ["Tech Lead","Training Lead"],
-		"pool":"taskpoolb"
+		"pool":"taskpoolb",
+		"access":"single"
 	},
 	"liamt": {
 		"name": "Liam Twist",
 		"position": "Client Facing engineer",
 		"roles": ["Support","On-Call"],
-		"pool":"taskpoolc"
+		"pool":"taskpoolc",
+		"access":"single"
 	},
 	"teddyq": {
 		"name": "Teddy Quan",
 		"position": "Client Facing engineer",
 		"roles": ["Tech Lead","Support","On-Call","Learning Recs","Training","Testing","Analytics"],
-		"pool":"taskpoolc"
+		"pool":"taskpoolc",
+		"access":"single"
 	},
 	"lofanc": {
 		"name": "Lofan Chin",
 		"position": "Client Facing engineer",
 		"roles": ["Support","Analytics"],
-		"pool":"taskpoolc"
+		"pool":"taskpoolc",
+		"access":"single"
 	},
 	"alasdairr": {
 		"name": "Alasdair Ross",
 		"position": "Client Facing engineer",
 		"roles": ["Template Builder"],
-		"pool":"taskpoolc"
+		"pool":"taskpoolc",
+		"access":"single"
 	},
 	"josies": {
 		"name": "Josie Smith",
 		"position": "Client Facing engineer",
 		"roles": ["SEO"],
-		"pool":"taskpoolc"
+		"pool":"taskpoolc",
+		"access":"single"
 	},
 	"karld": {
 		"name": "Karl Donaldson",
 		"position": "Client Facing engineer",
 		"roles": ["Team Lead","Platform Support","Learning Recs","Tools Development"],
-		"pool":"taskpoolc"
+		"pool":"taskpoolc",
+		"access":"team"
 	},
 	"charless": {
 		"name": "Charles Salmon",
 		"position": "Client Facing engineer",
 		"roles": ["Analytics"],
-		"pool":"taskpoolc"
+		"pool":"taskpoolc",
+		"access":"single"
 	},
 	"huid": {
 		"name": "Hui Dai",
 		"position": "Client Facing engineer",
 		"roles": ["Support"],
-		"pool":"taskpoold"
+		"pool":"taskpoold",
+		"access":"single"
 	},
 	"coreyb": {
 		"name": "Corey Barnard",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoold"
+		"pool":"taskpoold",
+		"access":"single"
 	},
 	"michalb": {
 		"name": "Michal Bokr",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoold"
+		"pool":"taskpoold",
+		"access":"single"
 	},
 	"hamishm": {
 		"name": "Hamish Medlin",
 		"position": "Client Facing engineer",
 		"roles": ["Team Lead","Testing","On-Call","Template Builder"],
-		"pool":"taskpoold"
+		"pool":"taskpoold",
+		"access":"team"
 	},
 	"callumr": {
 		"name": "Callum Reid",
 		"position": "Client Facing engineer",
 		"roles": ["Tech Lead","Learning Recs"],
-		"pool":"taskpoold"
+		"pool":"taskpoold",
+		"access":"single"
 	},
 	"jiayil": {
 		"name": "Jiayi Liu",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoold"
+		"pool":"taskpoold",
+		"access":"single"
 	},
 	"nanaqi": {
 		"name": "Nana Qi",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpoold"
+		"pool":"taskpoold",
+		"access":"single"
 	},
 	"hannaha": {
 		"name": "Hannah Ashworth",
 		"position": "Client Facing engineer",
 		"roles": ["Team Lead","Support"],
-		"pool":"taskpooluk"
+		"pool":"taskpooluk",
+		"access":"team"
 	},
 	"declanw": {
 		"name": "Declan Wright",
 		"position": "Client Facing engineer",
 		"roles": ["Learning Recs","Support UK"],
-		"pool":"taskpooluk"
+		"pool":"taskpooluk",
+		"access":"single"
 	},
 	"robertor": {
 		"name": "Roberto Roca",
 		"position": "Client Facing engineer",
 		"roles": ["Support UK","SEO"],
-		"pool":"taskpooluk"
+		"pool":"taskpooluk",
+		"access":"single"
 	},
 	"michaelc": {
 		"name": "Michael Coleman",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpooluk"
+		"pool":"taskpooluk",
+		"access":"single"
 	},
 	"theoa": {
 		"name": "Theo Archer",
 		"position": "Client Facing engineer",
 		"roles": [""],
-		"pool":"taskpooluk"
+		"pool":"taskpooluk",
+		"access":"single"
+	},
+	"matthewb": {
+		"name": "Matthew Brovelli",
+		"position": "Director",
+		"roles": [""],
+		"pool":"manager",
+		"access":"all"
 	}
 }
