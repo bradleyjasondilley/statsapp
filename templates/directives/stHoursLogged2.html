@@ -1,10 +1,14 @@
 <div>
-
-    <form>
-        <select ng-model="thisUserPool">
-            <option ng-repeat="(key, data) in displayData" value="{{key}}">{{key}}</option>
-        </select>
-    </form>
+    <div id="actions-wrapper">
+        <form>
+            <select ng-model="thisUserPool">
+                <option ng-repeat="(key, data) in displayData" value="{{key}}">{{key}}</option>
+            </select>
+        </form>
+        <div class="screenshot-btn">
+            <button ng-click="takeScreenShot()">Screenshot</button>
+        </div>
+    </div>
 
     <div ng-repeat="(pool, members) in displayData" id="{{pool}}" class="pool" ng-if="thisUserPool === pool">
         <div ng-repeat="(member, memberData) in members">

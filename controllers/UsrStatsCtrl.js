@@ -103,6 +103,20 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         return localUsrData;
     }
 
+    // Function to add screenshot
+    $scope.takeScreenShot = function() {
+        console.log('taking a screenshot!');
+        //hide selector of pools
+        $('#actions-wrapper').hide()
+        html2canvas(document.body, {
+            onrendered: function(canvas) {
+                console.log('screenshot done!');
+                document.body.appendChild(canvas);
+                $('#actions-wrapper').show()
+            }
+        });
+    }
+
 });
 
 function prepHours(usrData,data){
