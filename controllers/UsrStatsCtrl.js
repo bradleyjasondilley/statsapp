@@ -25,15 +25,13 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         function(returnedData) {
             $scope.users = returnedData.data;
             localData = prepUsers($scope.users);
-            console.log(localData);
             //now get hours
             DataRequest.getData(hoursUrl,
                 function(returned) {
                     newUsers = prepHours(localData,returned.data);
                     $scope.usrData = newUsers;
-                    console.log("this usrpool",$scope.thisUserPool);
                     $scope.displayData = buildDisplayObject($scope.curretUser);
-                    console.log($scope.displayData);
+                    console.log("display",$scope.displayData);
                 },
                 function(returned) {
                     console.log("get hours - failure");
@@ -47,7 +45,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     function buildDisplayObject(usr){
         localData = $scope.usrData;
-        var access = localData[$scope.thisUserPool][$scope.curretUser]["access"];
+        var access = localData[$scope.thisUserPool]["users"][$scope.curretUser]["access"];
         var tmpDisplay = {};
 
 
@@ -58,14 +56,15 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
                 if(pool == $scope.thisUserPool){
                     if(access == "team"){
-                        tmpDisplay[pool] = users;
+                        tmpDisplay[pool] = users["users"];
                         return false;
                     }else{
-                        $.each(users, function(name, data) {
+                        $.each(users["users"], function(name, data) {
                             if(name == usr){
                                 if(!tmpDisplay[pool]){
                                     tmpDisplay[pool] = {};
-                                    tmpDisplay[pool][usr] = data;
+                                    tmpDisplay[pool]["users"] = {};
+                                    tmpDisplay[pool]["users"][usr] = data;
                                     return false;
                                 }
                             }
@@ -86,7 +85,10 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
             $.each(localRequestData, function(name, info) {
                 if(info['pool'] == pool){
-                    localUsrData[pool][name] = info;
+                    if(!localUsrData[pool]["users"]){
+                        localUsrData[pool]["users"] = {};
+                    }
+                    localUsrData[pool]["users"][name] = info;
                     if(name == $scope.curretUser){
                         $scope.thisUserPool = pool;
                     }
@@ -98,7 +100,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         addedUsr["name"] = "Matthew Brovelli";
         if(!localUsrData["manager"]){
             localUsrData["manager"] = {};
-            localUsrData["manager"]["matthewb"] = addedUsr;
+            localUsrData["manager"]["users"]["matthewb"] = addedUsr;
         }
         return localUsrData;
     }
@@ -140,11 +142,20 @@ function prepHours(usrData,data){
             var worstWeekMin = 0;
             var totalEntries = Object.size(hours);
             var counter = 0;
+            var weekCounter = 1;
+
             weeks = {};
             weekTotals = {};
             weekTotals["bestWeek"] = {};
+            weekTotals["average"] = 0;
+            weekTotals["averageDisplay"] = 0;
             weekTotals["worstWeek"] = {};
             weekTotals["weekTotals"] = {};
+            weekTotals["weekTotalsChart"] = {
+                "week": [],
+                "time":[],
+                "hours":[]
+            };
             weekTotals["alltime"] = {
                 "hours" : 0,
                 "mins" : 0,
@@ -171,7 +182,7 @@ function prepHours(usrData,data){
 
 
                     var week = moment(hDate).week();
-                    localUsrData[pool][name]["currentWeek"] = week;
+                    localUsrData[pool]["users"][name]["currentWeek"] = week;
                     var year = moment(hDate).year();
                     currentWeek = week;
 
@@ -225,12 +236,18 @@ function prepHours(usrData,data){
                             weekTotals["weekTotals"][week]["min"] =  totalMin;
                             weekTotals["weekTotals"][week]["hours"] =  totalHours;
                             weekTotals["weekTotals"][week]["time"] =  weeks[week]["totalHoursTime"];
+                            weekTotals["weekTotalsChart"]["week"].push(week);
+                            weekTotals["weekTotalsChart"]["time"].push(weeks[week]["totalHoursTime"]);
+                            weekTotals["weekTotalsChart"]["hours"].push(totalHours);
 
                             currentMins = weekTotals["alltime"]["mins"];
                             newMins = currentMins + totalMin;
                             weekTotals["alltime"]["mins"] = newMins;
                             weekTotals["alltime"]["hours"] = moment.duration(newMins, 'minutes').asHours();
                             weekTotals["alltime"]["time"] = minTommss(weekTotals["alltime"]["hours"]);
+
+                            weekTotals["average"] = weekTotals["alltime"]["hours"] / weekCounter;
+                            weekTotals["averageDisplay"] = minTommss(weekTotals["average"]);
                         }
 
                     }else{
@@ -277,6 +294,10 @@ function prepHours(usrData,data){
                         weekTotals["weekTotals"][week-1]["min"] =  totalMin;
                         weekTotals["weekTotals"][week-1]["hours"] =  totalHours;
                         weekTotals["weekTotals"][week-1]["time"] =  weeks[week-1]["totalHoursTime"];
+                        weekTotals["weekTotalsChart"]["week"].push(week-1);
+                        weekTotals["weekTotalsChart"]["time"].push(weeks[week-1]["totalHoursTime"]);
+                        weekTotals["weekTotalsChart"]["hours"].push(totalHours);
+                        
 
                         currentMins = weekTotals["alltime"]["mins"];
                         newMins = currentMins + totalMin;
@@ -284,9 +305,13 @@ function prepHours(usrData,data){
                         weekTotals["alltime"]["hours"] = moment.duration(newMins, 'minutes').asHours();
                         weekTotals["alltime"]["time"] = minTommss(weekTotals["alltime"]["hours"]);
 
+                        weekTotals["average"] = weekTotals["alltime"]["hours"] / weekCounter;
+                        weekTotals["averageDisplay"] = minTommss(weekTotals["average"]);
+
                         chartDay = [];
                         chartTime = [];
                         chartHours = [];
+                        weekCounter++;
                     }
 
                     chartDay.push(tmp['day']);
@@ -315,8 +340,8 @@ function prepHours(usrData,data){
                 split = weeks[currentWeek]["totalHoursTime"].split(":");
                 weeks[currentWeek]["totalHoursTimeHours"] = split[0];
                 weeks[currentWeek]["totalHoursTimeMins"] = split[1];
-                localUsrData[pool][name]['weeks'] = weeks;
-                localUsrData[pool][name]['totals'] = weekTotals;
+                localUsrData[pool]["users"][name]['weeks'] = weeks;
+                localUsrData[pool]["users"][name]['totals'] = weekTotals;
             }
         });
     });

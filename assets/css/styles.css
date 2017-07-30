@@ -9,6 +9,7 @@ body{
     height: 300px;
     border-radius: 10px;
     box-shadow: 2px 2px 2px #888888;
+    position: relative;
 }
 
 .member{
@@ -73,12 +74,12 @@ body{
 }
 
 .usrRole{
-    position: relative;
+    position: absolute;
     font-family: Arial;
-    position: relative;
     color: white;
-    top: 260px;
-    right: 50px;
+    bottom: 36px;
+    right: 36px;
+    font-size: 14px;
 }
 
 .data_weeks{
@@ -119,6 +120,13 @@ body{
     width: 300px !important;
     height: 150px !important;
 }
+
+.trends canvas, .trends iframe{
+    width: 800px !important;
+    height: 250px !important;
+}
+
+
 
 .logged_display span{
     width: 220px;

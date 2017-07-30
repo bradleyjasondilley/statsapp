@@ -11,7 +11,7 @@
     </div>
 
     <div ng-repeat="(pool, members) in displayData" id="{{pool}}" class="pool" ng-if="thisUserPool === pool">
-        <div ng-repeat="(member, memberData) in members">
+        <div ng-repeat="(member, memberData) in members.users">
             <div class="usrHeading">
                 <div class="usrAvatar"></div>
                 <div class="usrInfo">
@@ -63,6 +63,13 @@
                             </div>
                             <div class="clear_both"></div>
                         </div>
+                        <div>
+                            <div class="title">Average:</div>
+                            <div class="content">
+                                {{memberData.totals.averageDisplay}} </br>
+                            </div>
+                            <div class="clear_both"></div>
+                        </div>
                     </div>
                     <!-- <div class="logged_usr_details stats">
                         <span>TEAM STATS</span>
@@ -84,7 +91,9 @@
                         </div>
                     </div> -->
                     <div class="clear_both"></div>
-                    <!--<div class="clear_both">{{weekData.totalHoursTime}}</div>-->
+                    <!-- <div class="trends">
+                        <canvas class="chart chart-bar" chart-data="memberData.totals.weekTotalsChart.hours" chart-labels="memberData.totals.weekTotalsChart.week" chart-series="series"> </canvas>
+                    </div> -->
                 </div>
             </div>
 
