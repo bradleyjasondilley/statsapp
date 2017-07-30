@@ -1,1 +1,1 @@
-var userStats = angular.module('UserStats',['ngResource','ng-fusioncharts','chart.js']);
+var userStats = angular.module('UserStats',['ngResource','chart.js']);
