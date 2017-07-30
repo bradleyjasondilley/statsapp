@@ -146,7 +146,6 @@ body{
 .stats{
     padding-left: 15px;
     padding-top: 35px;
-    width: 150px;
 }
 
 .logged_usr_details .title, .content{
@@ -155,11 +154,10 @@ body{
 
 .logged_usr_details .title{
     width:80px;
-    text-align: right;
     font-weight: bold;
 }
 
 .logged_usr_details .content{
     padding-left:10px;
-    width:50px;
+    width:120px;
 }

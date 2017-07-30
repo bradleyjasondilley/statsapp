@@ -144,6 +144,12 @@ function prepHours(usrData,data){
             weekTotals = {};
             weekTotals["bestWeek"] = {};
             weekTotals["worstWeek"] = {};
+            weekTotals["weekTotals"] = {};
+            weekTotals["alltime"] = {
+                "hours" : 0,
+                "mins" : 0,
+                "time" : 0
+            };
 
 
 
@@ -194,8 +200,11 @@ function prepHours(usrData,data){
 
                         if(lastRun){
                             weeks[week]["totalHoursTime"] = minTommss(weeks[week]["totalHoursValue"]);
+                            totalHours = moment.duration(weeks[week]["totalHoursTime"]).asHours();
                             totalMin = moment.duration(weeks[week]["totalHoursTime"]).asMinutes();
                             weeks[week]["totalHoursTime"] = minTommss(weeks[week]["totalHoursValue"]);
+
+                                                       
 
                             if(totalMin > bestWeekMin){
                                 bestWeekTime = weeks[week]["totalHoursTime"];
@@ -209,13 +218,28 @@ function prepHours(usrData,data){
                                 worstWeek = week;
                             }
 
+                            if(!weekTotals["weekTotals"][week]){
+                                weekTotals["weekTotals"][week] = {};
+                            }
+
+                            weekTotals["weekTotals"][week]["min"] =  totalMin;
+                            weekTotals["weekTotals"][week]["hours"] =  totalHours;
+                            weekTotals["weekTotals"][week]["time"] =  weeks[week]["totalHoursTime"];
+
+                            currentMins = weekTotals["alltime"]["mins"];
+                            newMins = currentMins + totalMin;
+                            weekTotals["alltime"]["mins"] = newMins;
+                            weekTotals["alltime"]["hours"] = moment.duration(newMins, 'minutes').asHours();
+                            weekTotals["alltime"]["time"] = minTommss(weekTotals["alltime"]["hours"]);
                         }
 
                     }else{
                         weeks[week]["totalHoursValue"] += parseFloat(hTime);
                         weeks[week-1]["totalHoursTime"] = minTommss(weeks[week-1]["totalHoursValue"]);
+                        totalHours = moment.duration(weeks[week-1]["totalHoursTime"]).asHours();
                         totalMin = moment.duration(weeks[week-1]["totalHoursTime"]).asMinutes();
                         lastWeek = currentWeek;
+                        
 
                         if(totalMin > bestWeekMin){
                             bestWeekTime = weeks[week-1]["totalHoursTime"];
@@ -243,6 +267,23 @@ function prepHours(usrData,data){
 
                         weekTotals["worstWeek"]['hoursWeek'] = worstWeek;
                         weekTotals["worstWeek"]['hoursTime'] = worstWeekTime;
+
+                        if(!weekTotals["weekTotals"][week-1]){
+                            weekTotals["weekTotals"][week-1] = {};
+                        }
+
+                        
+
+                        weekTotals["weekTotals"][week-1]["min"] =  totalMin;
+                        weekTotals["weekTotals"][week-1]["hours"] =  totalHours;
+                        weekTotals["weekTotals"][week-1]["time"] =  weeks[week-1]["totalHoursTime"];
+
+                        currentMins = weekTotals["alltime"]["mins"];
+                        newMins = currentMins + totalMin;
+                        weekTotals["alltime"]["mins"] = newMins;
+                        weekTotals["alltime"]["hours"] = moment.duration(newMins, 'minutes').asHours();
+                        weekTotals["alltime"]["time"] = minTommss(weekTotals["alltime"]["hours"]);
+
                         chartDay = [];
                         chartTime = [];
                         chartHours = [];
@@ -254,7 +295,6 @@ function prepHours(usrData,data){
 
 
                     weeks[week]["days"][hDate] = tmp;
-                    //var chart = {type : "bar", "scale-x" : {}, "scale-y":{"values":"0:12:1"}, "series":[{}] };
                     var chart = {};
 
                     chart["labels"] = chartDay;

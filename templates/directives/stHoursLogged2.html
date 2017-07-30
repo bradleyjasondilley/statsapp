@@ -47,23 +47,24 @@
                     <div class="logged_usr_details stats">
                         <span>YOUR STATS</span>
                         <div>
-                            <div class="title">Best week:</div>
-                            <div class="content">
-                                {{memberData.totals.bestWeek.hoursTime}} </br>
-                                Week {{memberData.totals.bestWeek.hoursWeek}}
-                            </div>
+                            <div class="title">Best Week:</div>
+                            <div class="content">Week {{memberData.totals.bestWeek.hoursWeek}} .::. {{memberData.totals.bestWeek.hoursTime}}</div>
                             <div class="clear_both"></div>
                         </div>
                         <div>
-                            <div class="title">Worst week:</div>
+                            <div class="title">Worst Week:</div>
+                            <div class="content">Week {{memberData.totals.worstWeek.hoursWeek}} .::. {{memberData.totals.worstWeek.hoursTime}}</div>
+                            <div class="clear_both"></div>
+                        </div>
+                        <div>
+                            <div class="title">2017 Total:</div>
                             <div class="content">
-                                {{memberData.totals.worstWeek.hoursTime}} </br>
-                                Week {{memberData.totals.worstWeek.hoursWeek}}
+                                {{memberData.totals.alltime.time}} </br>
                             </div>
                             <div class="clear_both"></div>
                         </div>
                     </div>
-                    <div class="logged_usr_details stats">
+                    <!-- <div class="logged_usr_details stats">
                         <span>TEAM STATS</span>
                         <div>
                             <div class="title">Best week:</div>
@@ -81,7 +82,7 @@
                             </div>
                             <div class="clear_both"></div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="clear_both"></div>
                     <!--<div class="clear_both">{{weekData.totalHoursTime}}</div>-->
                 </div>
