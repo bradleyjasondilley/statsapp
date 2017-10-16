@@ -244,6 +244,13 @@
 		"pool":"taskpooluk",
 		"access":"single"
 	},
+	"stevenr": {
+		"name": "Steven Rutherford",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpooluk",
+		"access":"single"
+	},
 	"matthewb": {
 		"name": "Matthew Brovelli",
 		"position": "Director",

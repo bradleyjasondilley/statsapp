@@ -1,4 +1,4 @@
-angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DataRequest){
+angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DateRequest,DataRequest,HoursRaw){
     $scope.curretUser = getURLParameter('usr');
     $scope.thisUserPool = "";
     $scope.thisUser;
@@ -15,11 +15,38 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     $scope.displayData;
 
+    var allData = {};
     var usrUrl = 'assets/data/userInfo.json';
+
 
     //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
     //var hoursUrl = 'kpi/hours/?startDate=20170110&endDate=20170120';
-    var hoursUrl = 'assets/data/data.json';
+    var hoursUrl = 'assets/data/jan.json';
+    
+    var janURL = 'assets/data/jan.json';
+    var febURL = 'assets/data/feb.json';
+    var marURL = 'assets/data/mar.json';
+
+    //var urlPrefix = "kpi/hours/";
+    var urlPrefix = "assets/data/";
+    var hoursUrls = ['mar.json', 'feb.json', 'jan.json'];
+
+    // for (var i = 0; i < hoursUrls.length; i++) {
+    //     $http.get(urlPrefix + hoursUrls[i],{'Content-type': 'application/json'}).then(mergeData, showError);
+    // }
+
+    // function mergeData(response){
+    //     console.log("called merge");
+    //     $.extend(true, allData, response.data );
+    //     console.log(allData);
+    // }
+
+    // function showError(response){
+    //     console.log("error");
+    // }
+
+    var dateRanges = DateRequest.getDateRange();
+    //console.log("dateRanges ", dateRanges);
 
     DataRequest.getData(usrUrl,
         function(returnedData) {
@@ -31,7 +58,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
                     newUsers = prepHours(localData,returned.data);
                     $scope.usrData = newUsers;
                     $scope.displayData = buildDisplayObject($scope.curretUser);
-                    console.log("display",$scope.displayData);
                 },
                 function(returned) {
                     console.log("get hours - failure");
@@ -56,8 +82,12 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
                 if(pool == $scope.thisUserPool){
                     if(access == "team"){
-                        tmpDisplay[pool] = users["users"];
-                        return false;
+                      if(!tmpDisplay[pool]){
+                          tmpDisplay[pool] = {};
+                          tmpDisplay[pool]["users"] = {};
+                          tmpDisplay[pool]["users"] = users["users"];
+                          return false;
+                      }
                     }else{
                         $.each(users["users"], function(name, data) {
                             if(name == usr){
@@ -162,6 +192,12 @@ function prepHours(usrData,data){
                 "time" : 0
             };
 
+            //Skip unknown users and pools
+
+            if(typeof localUsrData[pool] == "undefined" || typeof localUsrData[pool]["users"][name] == "undefined"){
+                return true;
+            }
+
 
 
             if(typeof localUsrData[pool] != "undefined"){
@@ -182,6 +218,7 @@ function prepHours(usrData,data){
 
 
                     var week = moment(hDate).week();
+                    
                     localUsrData[pool]["users"][name]["currentWeek"] = week;
                     var year = moment(hDate).year();
                     currentWeek = week;
@@ -215,7 +252,7 @@ function prepHours(usrData,data){
                             totalMin = moment.duration(weeks[week]["totalHoursTime"]).asMinutes();
                             weeks[week]["totalHoursTime"] = minTommss(weeks[week]["totalHoursValue"]);
 
-                                                       
+
 
                             if(totalMin > bestWeekMin){
                                 bestWeekTime = weeks[week]["totalHoursTime"];
@@ -256,7 +293,7 @@ function prepHours(usrData,data){
                         totalHours = moment.duration(weeks[week-1]["totalHoursTime"]).asHours();
                         totalMin = moment.duration(weeks[week-1]["totalHoursTime"]).asMinutes();
                         lastWeek = currentWeek;
-                        
+
 
                         if(totalMin > bestWeekMin){
                             bestWeekTime = weeks[week-1]["totalHoursTime"];
@@ -289,7 +326,7 @@ function prepHours(usrData,data){
                             weekTotals["weekTotals"][week-1] = {};
                         }
 
-                        
+
 
                         weekTotals["weekTotals"][week-1]["min"] =  totalMin;
                         weekTotals["weekTotals"][week-1]["hours"] =  totalHours;
@@ -297,7 +334,7 @@ function prepHours(usrData,data){
                         weekTotals["weekTotalsChart"]["week"].push(week-1);
                         weekTotals["weekTotalsChart"]["time"].push(weeks[week-1]["totalHoursTime"]);
                         weekTotals["weekTotalsChart"]["hours"].push(totalHours);
-                        
+
 
                         currentMins = weekTotals["alltime"]["mins"];
                         newMins = currentMins + totalMin;
@@ -324,7 +361,7 @@ function prepHours(usrData,data){
 
                     chart["labels"] = chartDay;
                     chart["data"] = chartHours;
-                    chart["colors"] = genColours(chartHours);;
+                    chart["colors"] = genColours(chartHours);
 
                     weeks[week]["chartData"] = chart;
                     counter++;
@@ -359,7 +396,7 @@ function genColours(data){
             colours.push(range[1]);
         }else if(data[i] < 6){
             colours.push(range[2]);
-        }else if(data[i] < 6.5){
+        }else if(data[i] < 7){
             colours.push(range[3]);
         }else if(data[i] >= 7){
             colours.push(range[4]);

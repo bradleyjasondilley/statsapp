@@ -1,10 +1,12 @@
 <div>
     <div id="actions-wrapper">
-        <form>
+        <div class="poolSelect">
+            Pool:
             <select ng-model="thisUserPool">
-                <option ng-repeat="(key, data) in displayData" value="{{key}}">{{key}}</option>
+                <option ng-repeat="(key, data) in displayData" value="{{key}}" ng-if="key!='manager'">{{key}}</option>
             </select>
-        </form>
+        </div>
+
         <div class="screenshot-btn">
             <button ng-click="takeScreenShot()">Screenshot</button>
         </div>
@@ -58,16 +60,12 @@
                         </div>
                         <div>
                             <div class="title">2017 Total:</div>
-                            <div class="content">
-                                {{memberData.totals.alltime.time}} </br>
-                            </div>
+                            <div class="content">{{memberData.totals.alltime.time}}</div>
                             <div class="clear_both"></div>
                         </div>
                         <div>
                             <div class="title">Average:</div>
-                            <div class="content">
-                                {{memberData.totals.averageDisplay}} </br>
-                            </div>
+                            <div class="content">{{memberData.totals.averageDisplay}}</div>
                             <div class="clear_both"></div>
                         </div>
                     </div>
