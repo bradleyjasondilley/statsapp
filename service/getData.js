@@ -4,6 +4,7 @@ angular.module('UserStats').factory('DataRequest', function($http){
     var url = 'assets/data/data.json';
     return {
         getData: function(url,successCallback,errorCallback){
+            console.log("url",url);
             $http.get(url,{'Content-type': 'application/json'}).then(successCallback, errorCallback);
         }
     };

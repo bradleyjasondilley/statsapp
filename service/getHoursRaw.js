@@ -1,15 +1,27 @@
-angular.module('UserStats').factory('HoursRaw', function($http){
+angular.module('UserStats').factory('HoursRaw', function($http,$q){
     return {
         getHours: function(urls,successCallback,errorCallback){
-
+            var deferred = $q.defer();
+            
+            var counter = 0;
             var totalUrls = urls.length;
+            var allData = {};
 
-            $http.get(urls[0],{'Content-type': 'application/json'}).then(mergeData, showError);
+            
+            getData(0);
+
+            function getData(item){
+                $http.get("assets/data/" + urls[item],{'Content-type': 'application/json'}).then(mergeData, showError);
+            }
 
             function mergeData(response){
-                console.log("called merge");
                 $.extend(true, allData, response.data );
-                console.log(allData);
+                counter++;
+                if(counter < totalUrls){
+                    getData(counter);
+                }else{
+                    successCallback(allData);
+                }
             }
 
             function showError(response){

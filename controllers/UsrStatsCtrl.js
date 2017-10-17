@@ -15,59 +15,45 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     $scope.displayData;
 
-    var allData = {};
-    var usrUrl = 'assets/data/userInfo.json';
+    
+    var usrUrl = 'assets/data/userInfo1.json';
 
 
     //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
     //var hoursUrl = 'kpi/hours/?startDate=20170110&endDate=20170120';
     var hoursUrl = 'assets/data/jan.json';
-    
-    var janURL = 'assets/data/jan.json';
-    var febURL = 'assets/data/feb.json';
-    var marURL = 'assets/data/mar.json';
 
     //var urlPrefix = "kpi/hours/";
     var urlPrefix = "assets/data/";
-    var hoursUrls = ['mar.json', 'feb.json', 'jan.json'];
-
-    // for (var i = 0; i < hoursUrls.length; i++) {
-    //     $http.get(urlPrefix + hoursUrls[i],{'Content-type': 'application/json'}).then(mergeData, showError);
-    // }
-
-    // function mergeData(response){
-    //     console.log("called merge");
-    //     $.extend(true, allData, response.data );
-    //     console.log(allData);
-    // }
-
-    // function showError(response){
-    //     console.log("error");
-    // }
+    var hoursUrls = ['jan.json', 'feb.json', 'mar.json', 'apr.json', 'may.json', 'jun.json', 'jul.json', 'aug.json', 'sep.json', 'oct.json'];
 
     var dateRanges = DateRequest.getDateRange();
-    //console.log("dateRanges ", dateRanges);
+    //var userData = HoursRaw.getHours(hoursUrls);
+    //console.log("userData",userData);
 
     DataRequest.getData(usrUrl,
         function(returnedData) {
             $scope.users = returnedData.data;
+            console.log("returnedData.data",returnedData.data);
             localData = prepUsers($scope.users);
-            //now get hours
-            DataRequest.getData(hoursUrl,
-                function(returned) {
-                    newUsers = prepHours(localData,returned.data);
-                    $scope.usrData = newUsers;
-                    $scope.displayData = buildDisplayObject($scope.curretUser);
-                },
-                function(returned) {
-                    console.log("get hours - failure");
-                }
-            );
+            HoursRaw.getHours(hoursUrls,getHoursSuccess,getHoursFailure );
         },
         function(returnedData) {
             console.log("get users - failure");
         }
     );
+
+    function getHoursSuccess(returned){
+        console.log("-----------");
+        console.log("localData",localData);
+        console.log("users",$scope.users);
+        newUsers = prepHours(localData,$scope.users,returned);
+        $scope.usrData = newUsers;
+        $scope.displayData = buildDisplayObject($scope.curretUser);
+    }
+    function getHoursFailure(returned){
+        console.log("called getHoursFailure");
+    }
 
     function buildDisplayObject(usr){
         localData = $scope.usrData;
@@ -108,7 +94,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     }
 
     function prepUsers(requestData){
-        localUsrData = {"taskpoola":{},"taskpoolb":{},"taskpoolc":{},"taskpoold":{},"taskpooluk":{},"manager":{}};
+        localUsrData = {"taskpoola":{},"taskpoolc":{},"taskpoold":{},"taskpooluk":{},"manager":{}};
         localRequestData = requestData;
 
         $.each(localUsrData, function(pool, users) {
@@ -132,6 +118,9 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
             localUsrData["manager"] = {};
             localUsrData["manager"]["users"]["matthewb"] = addedUsr;
         }
+
+        console.log(localUsrData);
+
         return localUsrData;
     }
 
@@ -151,11 +140,15 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
 });
 
-function prepHours(usrData,data){
+function prepHours(usrData,usrs,data){
+    console.log("888888888888999");
     localUsrData = usrData;
     localData = data;
 
+    console.log("localData",localData);
+
     $.each(localData, function(pool, users) {
+        console.log("****************** users",users);
         $.each(users, function(name, hours) {
             var cleanHours = [];
             var weeks = {};
@@ -192,9 +185,24 @@ function prepHours(usrData,data){
                 "time" : 0
             };
 
+            
+
+            if(name == "michalb"){
+                return true;
+            }
+            
+
+            if(typeof usrs[name] == "undefined"){
+                console.log("NAME",name,pool);
+                console.log(localUsrData[pool].users);
+                return true;
+            }else{
+                console.log("else NAME",name,pool);
+            }
+
             //Skip unknown users and pools
 
-            if(typeof localUsrData[pool] == "undefined" || typeof localUsrData[pool]["users"][name] == "undefined"){
+            if(typeof localUsrData[pool] == "undefined" || typeof localUsrData[pool]["users"][name] == "undefined" ){
                 return true;
             }
 
