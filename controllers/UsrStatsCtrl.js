@@ -16,7 +16,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     $scope.displayData;
 
     
-    var usrUrl = 'assets/data/userInfo1.json';
+    var usrUrl = 'assets/data/userInfo.json';
 
 
     //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
@@ -34,7 +34,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     DataRequest.getData(usrUrl,
         function(returnedData) {
             $scope.users = returnedData.data;
-            console.log("returnedData.data",returnedData.data);
             localData = prepUsers($scope.users);
             HoursRaw.getHours(hoursUrls,getHoursSuccess,getHoursFailure );
         },
@@ -44,10 +43,8 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     );
 
     function getHoursSuccess(returned){
-        console.log("-----------");
-        console.log("localData",localData);
-        console.log("users",$scope.users);
         newUsers = prepHours(localData,$scope.users,returned);
+        console.log("newUsers",newUsers);
         $scope.usrData = newUsers;
         $scope.displayData = buildDisplayObject($scope.curretUser);
     }
@@ -119,8 +116,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
             localUsrData["manager"]["users"]["matthewb"] = addedUsr;
         }
 
-        console.log(localUsrData);
-
         return localUsrData;
     }
 
@@ -141,14 +136,10 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 });
 
 function prepHours(usrData,usrs,data){
-    console.log("888888888888999");
     localUsrData = usrData;
     localData = data;
 
-    console.log("localData",localData);
-
     $.each(localData, function(pool, users) {
-        console.log("****************** users",users);
         $.each(users, function(name, hours) {
             var cleanHours = [];
             var weeks = {};
@@ -193,11 +184,9 @@ function prepHours(usrData,usrs,data){
             
 
             if(typeof usrs[name] == "undefined"){
-                console.log("NAME",name,pool);
-                console.log(localUsrData[pool].users);
                 return true;
             }else{
-                console.log("else NAME",name,pool);
+                //console.log("else NAME",name,pool);
             }
 
             //Skip unknown users and pools

@@ -6,6 +6,48 @@
 		"pool":"taskpoola",
 		"access":"single"
 	},
+	"binl": {
+		"name": "Bin Li",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoolc",
+		"access":"single"
+	},
+	"cecileb": {
+		"name": "Cecile Bourguignon",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoold",
+		"access":"single"
+	},
+	"goryuy": {
+		"name": "Goryu Yoshizaki",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoolc",
+		"access":"single"
+	},
+	"seant": {
+		"name": "Sean Turley",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoolc",
+		"access":"single"
+	},
+	"pushkard": {
+		"name": "Pushkar Dandekar",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoold",
+		"access":"single"
+	},
+	"joshuaj": {
+		"name": "Joshua Jin",
+		"position": "Client Facing engineer",
+		"roles": [""],
+		"pool":"taskpoola",
+		"access":"single"
+	},
 	"kyungjinh": {
 		"name": "Kyung-Jin",
 		"position": "Client Facing engineer",
@@ -190,6 +232,13 @@
 	},
 	"robertor": {
 		"name": "Roberto Roca",
+		"position": "Client Facing engineer",
+		"roles": ["Support UK","SEO"],
+		"pool":"taskpooluk",
+		"access":"single"
+	},
+	"monalisp": {
+		"name": "Manolis Papanikolou",
 		"position": "Client Facing engineer",
 		"roles": ["Support UK","SEO"],
 		"pool":"taskpooluk",
