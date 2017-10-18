@@ -1,4 +1,4 @@
-angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DateRequest,DataRequest,HoursRaw){
+angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DateRequest,DataRequest,HoursRaw,UserList){
     $scope.curretUser = getURLParameter('usr');
     $scope.thisUserPool = "";
     $scope.thisUser;
@@ -14,37 +14,37 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
 
     $scope.displayData;
-
-    
     var usrUrl = 'assets/data/userInfo.json';
-
-
-    //var hoursUrl = 'kpi/hours/?startDate=20170105&endDate=20170106';
-    //var hoursUrl = 'kpi/hours/?startDate=20170110&endDate=20170120';
-    var hoursUrl = 'assets/data/jan.json';
 
     //var urlPrefix = "kpi/hours/";
     var urlPrefix = "assets/data/";
     var hoursUrls = ['jan.json', 'feb.json', 'mar.json', 'apr.json', 'may.json', 'jun.json', 'jul.json', 'aug.json', 'sep.json', 'oct.json'];
+    //var hoursUrls = ['jan.json', 'feb.json'];
 
-    var dateRanges = DateRequest.getDateRange();
-    //var userData = HoursRaw.getHours(hoursUrls);
-    //console.log("userData",userData);
+    // Live urls to use
+    // var dateRanges = DateRequest.getDateRange();
 
     DataRequest.getData(usrUrl,
         function(returnedData) {
             $scope.users = returnedData.data;
-            localData = prepUsers($scope.users);
-            HoursRaw.getHours(hoursUrls,getHoursSuccess,getHoursFailure );
+            UserList.getUsers($scope.curretUser,$scope.users,getUsersSuccess,getUsersFailure);
         },
         function(returnedData) {
             console.log("get users - failure");
         }
     );
 
+    function getUsersSuccess(returned){
+        localData = prepUsers(returned);
+        HoursRaw.getHours(hoursUrls,getHoursSuccess,getHoursFailure );
+    }
+
+    function getUsersFailure(returned){
+        console.log("called getUsersFailure");
+    }
+
     function getHoursSuccess(returned){
         newUsers = prepHours(localData,$scope.users,returned);
-        console.log("newUsers",newUsers);
         $scope.usrData = newUsers;
         $scope.displayData = buildDisplayObject($scope.curretUser);
     }
@@ -115,7 +115,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
             localUsrData["manager"] = {};
             localUsrData["manager"]["users"]["matthewb"] = addedUsr;
         }
-
         return localUsrData;
     }
 
@@ -140,6 +139,9 @@ function prepHours(usrData,usrs,data){
     localData = data;
 
     $.each(localData, function(pool, users) {
+        if(typeof usrData[pool] == "undefined" || typeof usrData[pool].users == "undefined"){
+            return true;
+        }
         $.each(users, function(name, hours) {
             var cleanHours = [];
             var weeks = {};
@@ -176,17 +178,8 @@ function prepHours(usrData,usrs,data){
                 "time" : 0
             };
 
-            
-
-            if(name == "michalb"){
-                return true;
-            }
-            
-
             if(typeof usrs[name] == "undefined"){
                 return true;
-            }else{
-                //console.log("else NAME",name,pool);
             }
 
             //Skip unknown users and pools
