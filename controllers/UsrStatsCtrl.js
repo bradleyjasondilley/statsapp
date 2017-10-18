@@ -9,8 +9,14 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     $scope.date = moment().format('YYYY MM DD');
     $scope.date = $scope.date.replace(/\s+/g,'-');
     $scope.currentWeek = moment($scope.date).week();
-    $scope.currentWeek = 3;
+    weekArray = moment().startOf('week');
+    //$scope.currentWeek = 3;
+    console.log($scope.currentWeek);
     $scope.weeksSelect = 2;
+
+    var start = moment().day("Sunday").week($scope.currentWeek).format('DD');
+    var end = moment().day("Saturday").week($scope.currentWeek).format('DD');
+    console.log("start",start,"end",end);
 
 
     $scope.displayData;
@@ -19,6 +25,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     //var urlPrefix = "kpi/hours/";
     var urlPrefix = "assets/data/";
     var hoursUrls = ['jan.json', 'feb.json', 'mar.json', 'apr.json', 'may.json', 'jun.json', 'jul.json', 'aug.json', 'sep.json', 'oct.json'];
+    //var hoursUrls = ['sep.json', 'oct.json'];
     //var hoursUrls = ['jan.json', 'feb.json'];
 
     // Live urls to use
@@ -47,6 +54,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         newUsers = prepHours(localData,$scope.users,returned);
         $scope.usrData = newUsers;
         $scope.displayData = buildDisplayObject($scope.curretUser);
+        console.log($scope.displayData);
     }
     function getHoursFailure(returned){
         console.log("called getHoursFailure");
@@ -230,6 +238,13 @@ function prepHours(usrData,usrs,data){
 
                     if(!weeks[week]["chartData"]){
                         weeks[week]["chartData"] = {};
+                    }
+
+                    var weekStart = moment().day("Sunday").week(week).format('MMM DD');
+                    var weekEnd = moment().day("Saturday").week(week).format('MMM DD');
+
+                    if(!weeks[week]["dateRange"]){
+                        weeks[week]["dateRange"] = weekStart + " - " + weekEnd;
                     }
 
 

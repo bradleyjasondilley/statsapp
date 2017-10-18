@@ -33,7 +33,7 @@
                 </div> -->
                 <div class="week_select">
                     <select name="weeks" id="{{member}}_weeks" ng-model="currentWeek">
-                        <option ng-repeat="(key, value) in memberData.weeks" value="{{key}}" ng-selected="key == currentWeek">Week {{key}}</option>
+                        <option ng-repeat="(key, value) in memberData.weeks" value="{{key}}" ng-selected="key == currentWeek">{{value.dateRange}}</option>
                     </select>
                 </div>
 
