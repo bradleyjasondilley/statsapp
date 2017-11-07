@@ -1,6 +1,6 @@
 angular.module('UserStats').factory('HoursRaw', function($http,$q){
     return {
-        getHours: function(urls,successCallback,errorCallback){
+        getHours: function(urls,displayUsers,successCallback,errorCallback){
             var deferred = $q.defer();
             
             var counter = 0;
@@ -20,12 +20,53 @@ angular.module('UserStats').factory('HoursRaw', function($http,$q){
                 if(counter < totalUrls){
                     getData(counter);
                 }else{
-                    successCallback(allData);
+                    var individuals = stripFromPool(allData);
+                    var displayData = buildDisplay(individuals);
+                    successCallback(displayData);
                 }
             }
 
             function showError(response){
                 console.log("error");
+            }
+
+            function buildDisplay(userData){
+                var tmp = {};
+
+                $.each(displayUsers, function(pool, poolUsers) {
+                    $.each(poolUsers.users, function(name, data) {
+                        if(!tmp[pool]){
+                            tmp[pool] = {};
+                        }
+                        tmp[pool][name] = userData[name];
+                    })
+                })
+                return tmp;
+            }
+
+            function stripFromPool(data){
+                var tmp = {};
+                $.each(data, function(pool, poolUsers) {
+                    $.each(poolUsers, function(name, data) {
+                        if(tmp[name]){
+                            var currentData = tmp[name];
+                            var newData = data;
+                            var original = Object.assign(currentData,newData);
+                            var merged = {};
+                            
+                            var keys = Object.keys(original);
+                            keys.sort()
+                            for (i = 0; i < keys.length; i++) {
+                                merged[keys[i]] = original[keys[i]];
+                            }
+                            tmp[name] = merged;
+    
+                        }else{
+                            tmp[name] = data;
+                        }
+                    })
+                })
+                return tmp;
             }
         }
     };

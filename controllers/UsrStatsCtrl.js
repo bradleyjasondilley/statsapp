@@ -10,13 +10,11 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     $scope.date = $scope.date.replace(/\s+/g,'-');
     $scope.currentWeek = moment($scope.date).week();
     weekArray = moment().startOf('week');
-    //$scope.currentWeek = 3;
-    console.log($scope.currentWeek);
-    $scope.weeksSelect = 2;
+    $scope.currentWeek = 42;
+    //$scope.weeksSelect = 40;
 
     var start = moment().day("Sunday").week($scope.currentWeek).format('DD');
     var end = moment().day("Saturday").week($scope.currentWeek).format('DD');
-    console.log("start",start,"end",end);
 
 
     $scope.displayData;
@@ -43,7 +41,7 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     function getUsersSuccess(returned){
         localData = prepUsers(returned);
-        HoursRaw.getHours(hoursUrls,getHoursSuccess,getHoursFailure );
+        HoursRaw.getHours(hoursUrls,localData,getHoursSuccess,getHoursFailure);
     }
 
     function getUsersFailure(returned){
@@ -54,7 +52,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         newUsers = prepHours(localData,$scope.users,returned);
         $scope.usrData = newUsers;
         $scope.displayData = buildDisplayObject($scope.curretUser);
-        console.log($scope.displayData);
     }
     function getHoursFailure(returned){
         console.log("called getHoursFailure");
@@ -103,7 +100,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         localRequestData = requestData;
 
         $.each(localUsrData, function(pool, users) {
-
             $.each(localRequestData, function(name, info) {
                 if(info['pool'] == pool){
                     if(!localUsrData[pool]["users"]){
@@ -115,14 +111,21 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
                     }
                 }
             });
-
+            if(!localUsrData[pool]["users"]){
+                delete localUsrData[pool];
+            }
         });
-        var addedUsr = {};
-        addedUsr["name"] = "Matthew Brovelli";
-        if(!localUsrData["manager"]){
-            localUsrData["manager"] = {};
-            localUsrData["manager"]["users"]["matthewb"] = addedUsr;
-        }
+
+        // var addedUsr = {};
+        // addedUsr["name"] = "Matthew Brovelli";
+        // if(!localUsrData["manager"]){
+        //     localUsrData["manager"] = {};
+        //     if(!localUsrData["manager"]["users"]){
+        //         localUsrData["manager"]["users"] = {};
+        //         localUsrData["manager"]["users"]["matthewb"] = addedUsr;
+        //     }
+        // }
+
         return localUsrData;
     }
 
@@ -141,6 +144,8 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     }
 
 });
+
+
 
 function prepHours(usrData,usrs,data){
     localUsrData = usrData;
@@ -167,6 +172,10 @@ function prepHours(usrData,usrs,data){
             var totalEntries = Object.size(hours);
             var counter = 0;
             var weekCounter = 1;
+
+            if(typeof usrs[name] == "undefined"){
+                return true;
+            }
 
             weeks = {};
             weekTotals = {};
