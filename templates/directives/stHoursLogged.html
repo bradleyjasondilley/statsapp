@@ -2,8 +2,8 @@
     <div id="actions-wrapper">
         <div class="poolSelect">
             Pool:
-            <select ng-model="thisUserPool">
-                <option ng-repeat="(key, data) in displayData" value="{{key}}" ng-if="key!='manager'">{{key}}</option>
+            <select ng-model="thisUserPool" ng-change="broadcastRender()">
+                <option ng-repeat="(key, data) in displayData" value="{{key}}">{{poolDisplayName[key]}}</option>
             </select>
         </div>
 
@@ -11,9 +11,41 @@
             <button ng-click="takeScreenShot()">Screenshot</button>
         </div>
     </div>
+    <div ng-repeat="(pool, members) in displayData" id="{{pool}}" class="pool summary" ng-if="showSummary(pool)">
+        <div class="member" ng-if="pool != 'manager'">
+            <div class="summary_pool_name">{{poolDisplayName[pool]}}</div>
+            <div class="summary_table">
+            <table class="summary_pool_heading">
+                <thead class="summary_thead">
+                <tr>
+                    <td>Week</td>
+                    <td ng-repeat="(member, memberData) in members.users">
+                        {{member}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Avg</td>
+                    <td ng-repeat="(member, memberData) in members.users" ng-class="checkTotal(memberData.totals.averageDisplay)">
+                        {{memberData.totals.averageDisplay}}
+                    </td>
+                </tr>
+                </thead>
+                <tbody class="summary_tbody">
+                    <tr ng-repeat="weekNo in overviewWeeks" ng-class-even="'even'">
+                        <td>{{weekNo}}</td>
+                        <td ng-repeat="(member, memberData) in members.users" ng-class="checkTotal(memberData.weeks[weekNo].totalHoursTime)">
+                            {{memberData.weeks[weekNo].totalHoursTime}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
 
     <div ng-repeat="(pool, members) in displayData" id="{{pool}}" class="pool" ng-if="thisUserPool === pool">
-        <div ng-repeat="(member, memberData) in members.users">
+        
+        <div ng-repeat="(member, memberData) in members.users" ng-if="pool != 'manager'">
             <div class="usrHeading">
                 <div class="usrAvatar"></div>
                 <div class="usrInfo">
@@ -32,8 +64,8 @@
                     <span>{{weekData.totalHoursTime}}</span>
                 </div> -->
                 <div class="week_select">
-                    <select name="weeks" id="{{member}}_weeks" ng-model="currentWeek">
-                        <option ng-repeat="(key, value) in memberData.weeks" value="{{key}}" ng-selected="key == currentWeek">{{value.dateRange}}</option>
+                    <select name="weeks" id="{{member}}_weeks" ng-model="currentWeek" ng-change="changeWeek(member)">
+                        <option ng-repeat="(key, value) in memberData.weeks" value="{{key}}" ng-selected="key == currentWeek">{{value.dateRange}} (#{{key}})</option>
                     </select>
                 </div>
 
@@ -43,7 +75,7 @@
                         <span>{{weekData.totalHoursTimeHours}}h</span><br/>
                         <span>{{weekData.totalHoursTimeMins}}m</span>
                     </div>
-                    <div class="logged_chart" id="{{member}}_{{weekNumber}}">
+                    <div class="logged_chart hide" id="{{member}}_{{weekNumber}}">
                         <canvas class="chart chart-bar" chart-data="weekData.chartData.data" chart-labels="weekData.chartData.labels" chart-series="series" chart-colors="weekData.chartData.colors"> </canvas>
                     </div>
                     <div class="logged_usr_details stats">

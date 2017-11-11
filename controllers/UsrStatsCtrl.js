@@ -1,8 +1,14 @@
-angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,DateRequest,DataRequest,HoursRaw,UserList){
-    $scope.curretUser = getURLParameter('usr');
+angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,$timeout,DateRequest,DataRequest,HoursRaw,UserList){
+    $scope.curretUser = getURLParameter('showUsr');
     $scope.thisUserPool = "";
     $scope.thisUser;
-
+    $scope.poolDisplayName = {
+        "taskpoola" : "Pool A",
+        "taskpoolc" : "Pool C",
+        "taskpoold" : "Pool D",
+        "taskpooluk" : "Pool UK",
+        "manager" : "Managers"
+    }
     $scope.users;
     $scope.displayData = {};
     $scope.whichPool = 'taskpoola';
@@ -10,7 +16,14 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
     $scope.date = $scope.date.replace(/\s+/g,'-');
     $scope.currentWeek = moment($scope.date).week();
     weekArray = moment().startOf('week');
-    $scope.currentWeek = 42;
+    $scope.overviewWeeks = [];
+    
+    for (var index = $scope.currentWeek; index > 0; index--) {
+        $scope.overviewWeeks.push(index);
+    }
+    console.log($scope.overviewWeeks);
+    
+    //$scope.currentWeek = 44;
     //$scope.weeksSelect = 40;
 
     var start = moment().day("Sunday").week($scope.currentWeek).format('DD');
@@ -22,12 +35,13 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
 
     //var urlPrefix = "kpi/hours/";
     var urlPrefix = "assets/data/";
-    var hoursUrls = ['jan.json', 'feb.json', 'mar.json', 'apr.json', 'may.json', 'jun.json', 'jul.json', 'aug.json', 'sep.json', 'oct.json'];
+    var hoursUrls = ['jan.json', 'feb.json', 'mar.json', 'apr.json', 'may.json', 'jun.json', 'jul.json', 'aug.json', 'sep.json', 'oct.json','nov.json'];
     //var hoursUrls = ['sep.json', 'oct.json'];
     //var hoursUrls = ['jan.json', 'feb.json'];
 
     // Live urls to use
-    // var dateRanges = DateRequest.getDateRange();
+    var dateRanges = DateRequest.getDateRange();
+    console.log("dateRanges",dateRanges);
 
     DataRequest.getData(usrUrl,
         function(returnedData) {
@@ -52,6 +66,8 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         newUsers = prepHours(localData,$scope.users,returned);
         $scope.usrData = newUsers;
         $scope.displayData = buildDisplayObject($scope.curretUser);
+        console.log($scope.displayData);
+        $scope.$broadcast('dataloaded');
     }
     function getHoursFailure(returned){
         console.log("called getHoursFailure");
@@ -116,16 +132,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
             }
         });
 
-        // var addedUsr = {};
-        // addedUsr["name"] = "Matthew Brovelli";
-        // if(!localUsrData["manager"]){
-        //     localUsrData["manager"] = {};
-        //     if(!localUsrData["manager"]["users"]){
-        //         localUsrData["manager"]["users"] = {};
-        //         localUsrData["manager"]["users"]["matthewb"] = addedUsr;
-        //     }
-        // }
-
         return localUsrData;
     }
 
@@ -143,6 +149,51 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,Da
         });
     }
 
+    $scope.changeWeek = function(member){
+        var week = $('#' + member + "_weeks").val();
+        $('#' + member + "_" + week).show();
+    }
+
+    $scope.setVisible = function(week){
+        if(week == $scope.currentWeek){
+            return "show";
+        }else{
+            return "hide";
+        }
+    }
+
+    $scope.showCurrentChart = function(){
+        $.each($scope.displayData, function(pool, users) {
+            $.each(users.users, function(name,data){
+                $('#' + name + '_' + $scope.currentWeek).show();
+            })
+        });
+    }
+
+    $scope.broadcastRender = function(){
+        $scope.$broadcast('dataloaded');
+    }
+
+    $scope.checkLength = function(pool){
+        return Object.keys($scope.displayData[pool].users).length;
+    }
+
+    //(curretUser == 'bradleyd' || curretUser == 'matthewb') && thisUserPool == 'manager'
+
+    $scope.showSummary = function(pool){
+        if(($scope.curretUser == 'bradleyd' || $scope.curretUser == 'matthewb') && pool == 'manager'){
+            return true;
+        }
+    }
+
+    $scope.checkTotal = function(total){
+        if(total){
+            var tmp = parseInt(total.replace(":",""));
+            if(tmp < 2500){
+                return "below";
+            }
+        }
+    }
 });
 
 
@@ -152,7 +203,7 @@ function prepHours(usrData,usrs,data){
     localData = data;
 
     $.each(localData, function(pool, users) {
-        if(typeof usrData[pool] == "undefined" || typeof usrData[pool].users == "undefined"){
+        if(typeof usrData[pool] == "undefined" || typeof usrData[pool].users == "undefined" || pool == "manager"){
             return true;
         }
         $.each(users, function(name, hours) {
@@ -200,7 +251,6 @@ function prepHours(usrData,usrs,data){
             }
 
             //Skip unknown users and pools
-
             if(typeof localUsrData[pool] == "undefined" || typeof localUsrData[pool]["users"][name] == "undefined" ){
                 return true;
             }
@@ -256,6 +306,12 @@ function prepHours(usrData,usrs,data){
                         weeks[week]["dateRange"] = weekStart + " - " + weekEnd;
                     }
 
+                    if(!weeks[week]["weekNumber"]){
+                        weeks[week]["weekNumber"] = week;
+                    }
+
+                    
+
 
                     if(currentWeek == lastWeek){
                         weeks[week]["totalHoursValue"] += parseFloat(hTime);
@@ -303,32 +359,32 @@ function prepHours(usrData,usrs,data){
 
                     }else{
                         weeks[week]["totalHoursValue"] += parseFloat(hTime);
-                        weeks[week-1]["totalHoursTime"] = minTommss(weeks[week-1]["totalHoursValue"]);
-                        totalHours = moment.duration(weeks[week-1]["totalHoursTime"]).asHours();
-                        totalMin = moment.duration(weeks[week-1]["totalHoursTime"]).asMinutes();
-                        lastWeek = currentWeek;
+                        weeks[lastWeek]["totalHoursTime"] = minTommss(weeks[lastWeek]["totalHoursValue"]);
+                        totalHours = moment.duration(weeks[lastWeek]["totalHoursTime"]).asHours();
+                        totalMin = moment.duration(weeks[lastWeek]["totalHoursTime"]).asMinutes();
+                        
 
 
                         if(totalMin > bestWeekMin){
-                            bestWeekTime = weeks[week-1]["totalHoursTime"];
+                            bestWeekTime = weeks[lastWeek]["totalHoursTime"];
                             bestWeekMin = totalMin;
-                            bestWeek = week-1;
+                            bestWeek = lastWeek;
                         }
 
                         if(worstWeekMin == 0){
                             worstWeekMin = totalMin;
-                            worstWeekTime = weeks[week-1]["totalHoursTime"];
+                            worstWeekTime = weeks[lastWeek]["totalHoursTime"];
                         }
 
                         if(totalMin < worstWeekMin){
-                            worstWeekTime = weeks[week-1]["totalHoursTime"];
+                            worstWeekTime = weeks[lastWeek]["totalHoursTime"];
                             worstWeekMin = totalMin;
-                            worstWeek = week-1;
+                            worstWeek = lastWeek;
                         }
 
-                        split = weeks[week-1]["totalHoursTime"].split(":");
-                        weeks[week-1]["totalHoursTimeHours"] = split[0];
-                        weeks[week-1]["totalHoursTimeMins"] = split[1];
+                        split = weeks[lastWeek]["totalHoursTime"].split(":");
+                        weeks[lastWeek]["totalHoursTimeHours"] = split[0];
+                        weeks[lastWeek]["totalHoursTimeMins"] = split[1];
 
                         weekTotals["bestWeek"]['hoursWeek'] = bestWeek;
                         weekTotals["bestWeek"]['hoursTime'] = bestWeekTime;
@@ -336,17 +392,17 @@ function prepHours(usrData,usrs,data){
                         weekTotals["worstWeek"]['hoursWeek'] = worstWeek;
                         weekTotals["worstWeek"]['hoursTime'] = worstWeekTime;
 
-                        if(!weekTotals["weekTotals"][week-1]){
-                            weekTotals["weekTotals"][week-1] = {};
+                        if(!weekTotals["weekTotals"][lastWeek]){
+                            weekTotals["weekTotals"][lastWeek] = {};
                         }
 
 
 
-                        weekTotals["weekTotals"][week-1]["min"] =  totalMin;
-                        weekTotals["weekTotals"][week-1]["hours"] =  totalHours;
-                        weekTotals["weekTotals"][week-1]["time"] =  weeks[week-1]["totalHoursTime"];
-                        weekTotals["weekTotalsChart"]["week"].push(week-1);
-                        weekTotals["weekTotalsChart"]["time"].push(weeks[week-1]["totalHoursTime"]);
+                        weekTotals["weekTotals"][lastWeek]["min"] =  totalMin;
+                        weekTotals["weekTotals"][lastWeek]["hours"] =  totalHours;
+                        weekTotals["weekTotals"][lastWeek]["time"] =  weeks[lastWeek]["totalHoursTime"];
+                        weekTotals["weekTotalsChart"]["week"].push(lastWeek);
+                        weekTotals["weekTotalsChart"]["time"].push(weeks[lastWeek]["totalHoursTime"]);
                         weekTotals["weekTotalsChart"]["hours"].push(totalHours);
 
 
@@ -363,6 +419,7 @@ function prepHours(usrData,usrs,data){
                         chartTime = [];
                         chartHours = [];
                         weekCounter++;
+                        lastWeek = currentWeek;
                     }
 
                     chartDay.push(tmp['day']);
@@ -386,7 +443,6 @@ function prepHours(usrData,usrs,data){
 
                 weekTotals["worstWeek"]['hoursWeek'] = worstWeek;
                 weekTotals["worstWeek"]['hoursTime'] = worstWeekTime;
-
                 weeks[currentWeek]["totalHoursTime"] = minTommss(weeks[currentWeek]["totalHoursValue"]);
                 split = weeks[currentWeek]["totalHoursTime"].split(":");
                 weeks[currentWeek]["totalHoursTimeHours"] = split[0];

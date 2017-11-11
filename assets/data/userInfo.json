@@ -1,4 +1,11 @@
 {
+	"adamf": {
+		"name": "Adam Freeman",
+		"position": "Client Facing engineer",
+		"roles": ["Team lead","Components team","On-call"],
+		"pool":"taskpoola",
+		"access":"team"
+	},
 	"amrh": {
 		"name": "Amr Hussein",
 		"position": "Client Facing engineer",
@@ -51,21 +58,21 @@
 	"kyungjinh": {
 		"name": "Kyung-Jin",
 		"position": "Client Facing engineer",
-		"roles": ["Support"],
+		"roles": ["Support","Learning Recs"],
 		"pool":"taskpoola",
 		"access":"single"
 	},
 	"alexanderb": {
 		"name": "Alexander Bayliss",
 		"position": "Client Facing engineer",
-		"roles": [""],
+		"roles": ["Analytics"],
 		"pool":"taskpooluk",
 		"access":"single"
 	},
 	"samb": {
 		"name": "Sam Botting",
 		"position": "Client Facing engineer",
-		"roles": ["Analytics"],
+		"roles": ["Analytics","Platform Support"],
 		"pool":"taskpooluk",
 		"access":"single"
 	},
@@ -82,13 +89,6 @@
 		"roles": [""],
 		"pool":"taskpoola",
 		"access":"single"
-	},
-	"adamf": {
-		"name": "Adam Freeman",
-		"position": "Client Facing engineer",
-		"roles": ["Team lead","Template Builder","On-call","RAC Dev","Testing"],
-		"pool":"taskpoola",
-		"access":"team"
 	},
 	"jakubg": {
 		"name": "Jakub Gereg",
@@ -114,14 +114,14 @@
 	"yukif": {
 		"name": "Yuki Fujii",
 		"position": "Client Facing engineer",
-		"roles": ["Platform Support"],
+		"roles": ["Platform Support","Support"],
 		"pool":"taskpoolc",
 		"access":"single"
 	},
 	"carlz": {
 		"name": "Carl Zogheib",
 		"position": "Client Facing engineer",
-		"roles": ["Analytics"],
+		"roles": ["Analytics","On-Call"],
 		"pool":"taskpoold",
 		"access":"single"
 	},
@@ -142,28 +142,28 @@
 	"liamt": {
 		"name": "Liam Twist",
 		"position": "Client Facing engineer",
-		"roles": ["Support","On-Call"],
+		"roles": ["Support","Analytics"],
 		"pool":"taskpoolc",
 		"access":"single"
 	},
 	"teddyq": {
 		"name": "Teddy Quan",
 		"position": "Client Facing engineer",
-		"roles": ["Tech Lead","Support","On-Call","Learning Recs","Training","Testing","Analytics"],
+		"roles": ["Tech Lead","Support","On-Call","Learning Recs","Analytics"],
 		"pool":"taskpoolc",
 		"access":"single"
 	},
 	"lofanc": {
 		"name": "Lofan Chin",
 		"position": "Client Facing engineer",
-		"roles": ["Support","Analytics"],
+		"roles": ["Support","Analytics","Components Team","Platform Support"],
 		"pool":"taskpoolc",
 		"access":"single"
 	},
 	"alasdairr": {
 		"name": "Alasdair Ross",
 		"position": "Client Facing engineer",
-		"roles": ["Template Builder"],
+		"roles": ["Components Team"],
 		"pool":"taskpoola",
 		"access":"single"
 	},
@@ -184,28 +184,28 @@
 	"charless": {
 		"name": "Charles Salmon",
 		"position": "Client Facing engineer",
-		"roles": ["Analytics"],
+		"roles": ["Analytics","On-Call"],
 		"pool":"taskpoola",
 		"access":"single"
 	},
 	"coreyb": {
 		"name": "Corey Barnard",
 		"position": "Client Facing engineer",
-		"roles": [""],
+		"roles": ["Learning Recs"],
 		"pool":"taskpoold",
 		"access":"single"
 	},
 	"hamishm": {
 		"name": "Hamish Medlin",
 		"position": "Client Facing engineer",
-		"roles": ["Team Lead","Testing","On-Call","Template Builder"],
+		"roles": ["Team Lead","On-Call","Components Team"],
 		"pool":"taskpoold",
 		"access":"team"
 	},
 	"callumr": {
 		"name": "Callum Reid",
 		"position": "Client Facing engineer",
-		"roles": ["Tech Lead","Learning Recs"],
+		"roles": ["Tech Lead","Learning Recs","Components Team"],
 		"pool":"taskpoold",
 		"access":"single"
 	},
@@ -226,21 +226,21 @@
 	"hannaha": {
 		"name": "Hannah Ashworth",
 		"position": "Client Facing engineer",
-		"roles": ["Team Lead","Support"],
+		"roles": ["Team Lead","Platform Support"],
 		"pool":"taskpooluk",
 		"access":"team"
 	},
 	"robertor": {
 		"name": "Roberto Roca",
 		"position": "Client Facing engineer",
-		"roles": ["Support UK","SEO"],
+		"roles": ["SEO"],
 		"pool":"taskpooluk",
 		"access":"single"
 	},
-	"monalisp": {
+	"manolisp": {
 		"name": "Manolis Papanikolou",
 		"position": "Client Facing engineer",
-		"roles": ["Support UK","SEO"],
+		"roles": [],
 		"pool":"taskpooluk",
 		"access":"single"
 	},

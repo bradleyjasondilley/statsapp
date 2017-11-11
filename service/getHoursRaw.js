@@ -21,6 +21,7 @@ angular.module('UserStats').factory('HoursRaw', function($http,$q){
                     getData(counter);
                 }else{
                     var individuals = stripFromPool(allData);
+                    
                     var displayData = buildDisplay(individuals);
                     successCallback(displayData);
                 }
