@@ -17,11 +17,11 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,$t
     $scope.currentWeek = moment($scope.date).week();
     weekArray = moment().startOf('week');
     $scope.overviewWeeks = [];
+    $scope.colourVal = 0;
     
     for (var index = $scope.currentWeek; index > 0; index--) {
         $scope.overviewWeeks.push(index);
     }
-    console.log($scope.overviewWeeks);
     
     //$scope.currentWeek = 44;
     //$scope.weeksSelect = 40;
@@ -41,7 +41,6 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,$t
 
     // Live urls to use
     var dateRanges = DateRequest.getDateRange();
-    console.log("dateRanges",dateRanges);
 
     DataRequest.getData(usrUrl,
         function(returnedData) {
@@ -181,9 +180,18 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,$t
     //(curretUser == 'bradleyd' || curretUser == 'matthewb') && thisUserPool == 'manager'
 
     $scope.showSummary = function(pool){
-        if(($scope.curretUser == 'bradleyd' || $scope.curretUser == 'matthewb') && pool == 'manager'){
+        if(($scope.curretUser == 'bradleyd' || $scope.curretUser == 'matthewb')){
+            if($scope.thisUserPool == "manager"){
+                return true;
+            }else if(pool == $scope.thisUserPool){
+                return true;
+            }
+            
+        }
+        if($scope.users[$scope.curretUser].access == "team" && pool == $scope.users[$scope.curretUser].pool){
             return true;
         }
+
     }
 
     $scope.checkTotal = function(total){
@@ -191,8 +199,21 @@ angular.module('UserStats').controller('UsrStatsCtrl', function ($scope,$http,$t
             var tmp = parseInt(total.replace(":",""));
             if(tmp < 2500){
                 return "below";
+            }else if(tmp > 3000){
+                return "above";
             }
         }
+    }
+
+
+    $scope.getColour = function(){
+        $scope.colourVal ++;
+        if($scope.colourVal == 13){
+            $scope.colourVal = 1;
+        }
+        var colourClass = "colour" + $scope.colourVal;
+        console.log(colourClass);
+        return colourClass;
     }
 });
 

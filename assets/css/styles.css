@@ -255,6 +255,10 @@ body{
     color: red;
 }
 
+.above{
+    color: green;
+}
+
 .summary_table thead, tbody tr {
     display:table;
     width:100%;
@@ -271,4 +275,52 @@ body{
 .summary_table thead {
     width:952px;
     font-weight: bold;
+}
+
+.pool div.colour1{
+    background-color: #428761
+}
+
+.pool div.colour2{
+    background-color: #88AD4F
+}
+
+.pool div.colour3{
+    background-color: #F3EA63
+}
+
+.pool div.colour4{
+    background-color: #FED05E
+}
+
+.pool div.colour5{
+    background-color: #D9893D
+}
+
+.pool divcolour6{
+    background-color: #D56938
+}
+
+.pool div.colour7{
+    background-color: #CE4A34
+}
+
+.pool div.colour8{
+    background-color: #93476D
+}
+
+.pool div.colour9{
+    background-color: #614675
+}
+
+.pool div.colour10{
+    background-color: #4D4E7D
+}
+
+.pool div.colour11{
+    background-color: #4970A6
+}
+
+.pool div.colour12{
+    background-color: #48638B
 }
